@@ -280,8 +280,7 @@ public class GameLogic {
 
             if (!(breweryField.isOwned())) {
 
-                switch (gui.getUserButtonPressed(player.getName() + ", vil du købe feltet for " + breweryField.getValue() + " med en" +
-                        " leje på " + player.getTerningSum() + "?", "Ja", "Nej")) {
+                switch (gui.getUserButtonPressed(player.getName() + ", vil du købe feltet for " + breweryField.getValue(), "Ja", "Nej")) {
 
                     case "Ja":
                         player.adBrewery();
