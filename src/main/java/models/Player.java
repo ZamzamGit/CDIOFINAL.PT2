@@ -10,6 +10,7 @@ public class Player {
     private Dice dice = new Dice();
     private int terning1, terning2;
     private int terningSum;
+    private int amountOfShipping = -1;
 
     public Player() {
         account = new Account(1500);
@@ -60,6 +61,14 @@ public class Player {
     public void setId(int id) {
         this.id = id;
     }
+
+    public void adShipping(){
+       amountOfShipping +=1;
+    }
+    public int getAmountOfShipping(){
+        return amountOfShipping;
+    }
+
 }
 
 
