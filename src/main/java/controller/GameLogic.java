@@ -186,6 +186,8 @@ public class GameLogic {
             Street streetField = ((Street) field);
             if (!(streetField.isOwned())) {
 
+                gui.displayChanceCard(player.getName() + " lander på et ledig felt");
+
                 switch (gui.getUserButtonPressed(player.getName() + ", vil du købe feltet for " + streetField.getValue() + " med en" +
                         " leje på " + streetField.getRent() + "?", "Ja", "Nej")) {
 
@@ -212,12 +214,13 @@ public class GameLogic {
             }
 
         } else if (field instanceof GoToJail) {
-            gui.displayChanceCard(player.getName() + " går i fængsel");
+            gui.displayChanceCard(player.getName() + " går i fængsel, og betaler 50 kr. for at komme ud næste runde");
             fields[player.getLocation()].setCar(gui_player, false);
             newLocation = 10;
             player.setLocation(newLocation);
-            //newLocation = (player.getLocation() + 20) % fields.length;
             fields[newLocation].setCar(gui_player, true);
+            player.getAccount().withdraw(50);
+            gui_player.setBalance(player.getAccount().getBalance());
 
         } else if (field instanceof Tax) {
             Tax taxField = ((Tax) field);
@@ -236,6 +239,8 @@ public class GameLogic {
         } else if (field instanceof Shipping) {
             Shipping shipField = ((Shipping) field);
             if (!(shipField.isOwned())) {
+
+                gui.displayChanceCard(player.getName() + " lander på et ledig felt");
 
                 switch (gui.getUserButtonPressed(player.getName() + ", vil du købe feltet for " + shipField.getValue() + " med en" +
                         " leje på " + shipField.getRent() + "?", "Ja", "Nej")) {
@@ -267,8 +272,35 @@ public class GameLogic {
             }
 
         } else if (field instanceof Chance) {
-            chanceController.landOnChance(player, gui_player, gui, fields);
 
+            int chanceCard = (int) (Math.random() * 7);
+
+            switch (chanceCard) {
+                case 0:
+                    chanceController.moveFiveStepsForward(player, gui_player, gui, fields);
+                    landOnField(player, gui_player);
+                    break;
+                case 1:
+                    chanceController.moveTwoStepsBack(player, gui_player, gui, fields);
+                    landOnField(player, gui_player);
+                    break;
+                case 2:
+                    chanceController.moveToStart(player, gui_player, gui, fields);
+                    landOnField(player, gui_player);
+                    break;
+                case 3:
+                    chanceController.parkingFine(player, gui_player, gui, fields);
+                    break;
+                case 4:
+                    chanceController.newTire(player, gui_player, gui, fields);
+                    break;
+                case 5:
+                    chanceController.recieveAmount(player, gui_player, gui, fields);
+                    break;
+                case 6:
+                    chanceController.moveToRådhuspladsen(player, gui_player, gui, fields);
+                    landOnField(player, gui_player);
+            }
         } else if (field instanceof Jail) {
             gui.displayChanceCard(player.getName() + ", du er på besøg i fængslet");
 
@@ -277,6 +309,7 @@ public class GameLogic {
             Brewery breweryField = ((Brewery) field);
             System.out.println(player.getTerningSum());
            // int rent = player.getTerningSum()*(4+6*breweryField.getOwner().getAmountOfBrewery());
+            gui.displayChanceCard(player.getName() + " lander på et ledig felt");
 
             if (!(breweryField.isOwned())) {
 

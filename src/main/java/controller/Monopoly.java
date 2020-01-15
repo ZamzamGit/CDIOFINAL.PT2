@@ -7,8 +7,6 @@ public class Monopoly {
 
     private GameLogic gui;
     private Player[] players;
-    private Board board = new Board();
-
 
     public Monopoly() {
         this.gui = new GameLogic();
