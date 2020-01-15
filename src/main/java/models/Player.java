@@ -11,6 +11,7 @@ public class Player {
     private int terning1, terning2;
     private int terningSum;
     private int amountOfShipping = -1;
+    private int amountOfBrewery = -1;
 
     public Player() {
         account = new Account(1500);
@@ -65,10 +66,16 @@ public class Player {
     public void adShipping(){
        amountOfShipping +=1;
     }
+
     public int getAmountOfShipping(){
         return amountOfShipping;
     }
 
+    public void adBrewery(){amountOfBrewery+=1;}
+
+    public int getAmountOfBrewery() {
+        return amountOfBrewery;
+    }
 }
 
 
