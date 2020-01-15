@@ -16,6 +16,7 @@ public class GameLogic {
     private Board board = new Board();
     private int newLocation;
     boolean passedStart = false;
+    private ChanceController chanceController = new ChanceController();
 
     public GameLogic() {
 
@@ -167,12 +168,8 @@ public class GameLogic {
                 landOnField(player[i], players[i]);
 
                 if (passedStart == true) {
-                    player[i].setLocation(newLocation);
                     player[i].getAccount().deposit(200);
                     players[i].setBalance(player[i].getAccount().getBalance());
-                } else {
-
-                    player[i].setLocation(newLocation);
                 }
             }
         }
@@ -215,6 +212,7 @@ public class GameLogic {
             gui.displayChanceCard(player.getName() + " går i fængsel");
             fields[player.getLocation()].setCar(gui_player, false);
             newLocation = 10;
+            player.setLocation(newLocation);
             //newLocation = (player.getLocation() + 20) % fields.length;
             fields[newLocation].setCar(gui_player, true);
 
@@ -235,6 +233,11 @@ public class GameLogic {
         } else if (field instanceof Shipping) {
             gui.displayChanceCard("");
 
+        } else if(field instanceof Chance) {
+            chanceController.landOnChance(player, gui_player, gui, fields);
+
+        } else if(field instanceof Jail) {
+            gui.displayChanceCard("Du er på besøg i fængslet");
         }
     }
 }
