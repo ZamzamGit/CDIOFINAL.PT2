@@ -3,6 +3,7 @@ package models;
 
 public class Player {
 
+    private int id;
     private String name;
     private int location;
     private Account account;
@@ -50,6 +51,14 @@ public class Player {
 
     public int getTerningSum() {
         return terningSum;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
 

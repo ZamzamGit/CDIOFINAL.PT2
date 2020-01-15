@@ -27,23 +27,5 @@ public class Field {
     public int getValue() {
         return 0;
     }
-
-    public int getRent() {
-        return 0;
-    }
-
-    public void setOwner(GUI_Player owner) {
-    }
-
-    public boolean isOwned() {
-        return false;
-    }
-
-    public GUI_Player getOwner() {
-        return null;
-    }
-
-    public void setOwned() {
-    }
 }
 

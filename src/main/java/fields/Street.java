@@ -9,7 +9,7 @@ public class Street extends Field {
 
     private int value;
     private int rent;
-    private GUI_Player owner;
+    private Player owner;
     private boolean owned = false;
 
     public Street(String name, int value, int rent, Color color) {
@@ -23,24 +23,22 @@ public class Street extends Field {
         return value;
     }
 
-    public void setOwner(GUI_Player owner) {
+    public void setOwner(Player owner) {
         this.owner = owner;
     }
 
-    @Override
-    public GUI_Player getOwner() {
+    public Player getOwner() {
         return owner;
     }
 
+    public void setOwned(boolean owned) {
+        this.owned = owned;
+    }
+
     public boolean isOwned() {
-        return owned;
+        return this.owned;
     }
 
-    public void setOwned() {
-        owned = true;
-    }
-
-    @Override
     public int getRent() {
         return rent;
     }

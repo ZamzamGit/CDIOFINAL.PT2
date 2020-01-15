@@ -31,6 +31,7 @@ public class Monopoly {
         for (int i = 0; i < antal ; i++) {
             String name = gui.getUserString("Spiller " + (i + 1) + ",  indtast dit navn");
             players[i] = new Player();
+            players[i].setId(i);
             players[i].setName(name);
 
         }
