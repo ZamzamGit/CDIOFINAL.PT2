@@ -219,6 +219,8 @@ public class GameLogic {
             gui.displayChanceCard(player.getName() + " du skal betale " + taxField.getTax() + " i skat");
             player.getAccount().withdraw(taxField.getTax());
             gui_player.setBalance(player.getAccount().getBalance());
+        } else if (field instanceof Chance) {
+
         }
     }
 }
