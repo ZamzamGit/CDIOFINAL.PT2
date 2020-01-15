@@ -18,8 +18,7 @@ public class Monopoly {
 
     public void kast() {
 
-        }
-
+    }
 
 
     public void numberOfPlayers() {
@@ -28,30 +27,22 @@ public class Monopoly {
 
         players = new Player[antal];
 
-        for (int i = 0; i < antal ; i++) {
+        for (int i = 0; i < antal; i++) {
             String name = gui.getUserString("Spiller " + (i + 1) + ",  indtast dit navn");
             players[i] = new Player();
             players[i].setId(i);
             players[i].setName(name);
 
         }
-            gui.addPlayers(players);
-            gui.move(players);
-
-    }
-
-        public void test(Player[] player) {
-
+        gui.addPlayers(players);
         gui.move(players);
-
-
-        }
-
-
+    }
+}
 
 
 
-        }
+
+
 
 
 

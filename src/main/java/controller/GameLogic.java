@@ -20,9 +20,7 @@ public class GameLogic {
     private GUI_Field[] fields;
     private Board board = new Board();
     private int newLocation;
-    private int priorLocation = 0;
     boolean passedStart = false;
-    private int ownerIndex;
 
     public GameLogic() {
 
@@ -146,10 +144,9 @@ public class GameLogic {
             for (int i = 0; i < player.length; i++) {
                 gui.getUserButtonPressed(player[i].getName() + ",  slå med terning", "OK");
 
-                player[i].kast();
+                player[i].diceRoll();
 
                 gui.setDice(player[i].getTerning1(), player[i].getTerning2());
-
 
                 newLocation = (player[i].getLocation() + player[i].getTerningSum());
 
@@ -177,19 +174,7 @@ public class GameLogic {
                 } else {
 
                     player[i].setLocation(newLocation);
-
                 }
-/*
-                if (newLocation >= fields.length) {
-                    System.out.println("kom ind");
-                    player[i].setLocation(newLocation - fields.length);
-                    player[i].getAccount().deposit(1000);
-                    players[i].setBalance(player[i].getAccount().getBalance());
-                } else {
-                    player[i].setLocation(newLocation);
-                    System.out.println("kom ikke ind");
-                    System.out.println(newLocation);
-                }*/
             }
         }
     }
@@ -198,56 +183,45 @@ public class GameLogic {
 
         Field field = board.getField(player.getLocation());
 
-       // if (field instanceof GoToJail) {
-         //   player.getAccount().deposit(10000);
-           // gui_player.setBalance(player.getAccount().getBalance());
+        if (field instanceof Street) {
+            Street streetField = ((Street) field);
+            if (!(streetField.isOwned())) {
 
-            if (field instanceof Street) {
-                Street streetField = ((Street)field);
-                if(!(streetField.isOwned())) {
+                switch (gui.getUserButtonPressed(player.getName() + ", vil du købe feltet for " + streetField.getValue() + " med en" +
+                        " leje på " + streetField.getRent() + "?", "Ja", "Nej")) {
 
-                    switch (gui.getUserButtonPressed(player.getName() + ", vil du købe feltet for " + field.getValue() + "?", "Ja", "Nej")) {
+                    case "Ja":
+                        streetField.setOwner(player);
+                        streetField.setOwned(true);
 
-                        case "Ja":
-                            streetField.setOwner(player);
-                            streetField.setOwned(true);
-
-                            gui.displayChanceCard(player.getName() + " køber feltet for " + field.getValue());
-                            player.getAccount().withdraw(field.getValue());
-                            gui_player.setBalance(player.getAccount().getBalance());
-                            break;
-                        default:
-                            displayChanceCard("Du køber ikke feltet");
-                    }
-                } else if (player == streetField.getOwner()) {
-                    displayChanceCard(player.getName() + ", du er landet på dit eget felt");
-
+                        gui.displayChanceCard(player.getName() + " køber feltet for " + streetField.getValue());
+                        player.getAccount().withdraw(streetField.getValue());
+                        gui_player.setBalance(player.getAccount().getBalance());
+                        break;
+                    default:
+                        displayChanceCard("Du køber ikke feltet");
                 }
-                else {
-                    gui.displayChanceCard(player.getName() + ", feltet er desværre ejet betal til " + streetField.getOwner().getName());
-                    player.getAccount().withdraw(streetField.getRent());
-                    gui_player.setBalance(player.getAccount().getBalance());
+            } else if (player == streetField.getOwner()) {
+                displayChanceCard(player.getName() + ", du er landet på dit eget felt");
 
-                    streetField.getOwner().getAccount().deposit(streetField.getRent());
-                    players[streetField.getOwner().getId()].setBalance(streetField.getOwner().getAccount().getBalance());
-                }
+            } else {
+                gui.displayChanceCard(player.getName() + ", feltet er desværre ejet betal " + streetField.getRent() + " til " + streetField.getOwner().getName());
+                player.getAccount().withdraw(streetField.getRent());
+                gui_player.setBalance(player.getAccount().getBalance());
 
-                } else if(field instanceof GoToJail) {
-
-
-
+                streetField.getOwner().getAccount().deposit(streetField.getRent());
+                players[streetField.getOwner().getId()].setBalance(streetField.getOwner().getAccount().getBalance());
             }
 
+        } else if (field instanceof GoToJail) {
+            gui.displayChanceCard(player.getName() + " går i fængsel");
 
 
 
-
-
-
-
-
-            }
         }
+    }
+}
+
 
 
 

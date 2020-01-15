@@ -13,9 +13,4 @@ public class Shipping extends Field {
         super(name, color);
         this.value = value;
     }
-
-    @Override
-    public int getValue() {
-        return value;
-    }
 }

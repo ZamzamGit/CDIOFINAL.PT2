@@ -19,10 +19,10 @@ public class Player {
         return name;
     }
 
-    public void kast() {
+    public void diceRoll() {
         terning1 = dice.roll();
         terning2 = dice.roll();
-       terningSum = terning1 + terning2;
+        terningSum = terning1 + terning2;
     }
 
     public int getLocation() {
