@@ -6,7 +6,6 @@ import gui_main.GUI;
 import models.Board;
 import models.Player;
 import java.awt.*;
-import java.util.Locale;
 
 public class GameLogic {
 
@@ -133,7 +132,7 @@ public class GameLogic {
         }
     }
 
-    public void move(Player[] player) {
+    public void movePlayer(Player[] player) {
 
         while (true) {
 
@@ -153,7 +152,6 @@ public class GameLogic {
 
                 }
                 newLocation = newLocation % fields.length;
-
 
                 fields[player[i].getLocation()].setCar(players[i], false);
 
@@ -211,19 +209,24 @@ public class GameLogic {
         } else if (field instanceof GoToJail) {
             gui.displayChanceCard(player.getName() + " går i fængsel");
             fields[player.getLocation()].setCar(gui_player, false);
-            newLocation = (player.getLocation() + 20) % fields.length;
+            newLocation = 10;
+            //newLocation = (player.getLocation() + 20) % fields.length;
             fields[newLocation].setCar(gui_player, true);
 
-        } else if(field instanceof Tax) {
+        } else if (field instanceof Tax) {
             Tax taxField = ((Tax) field);
             gui.displayChanceCard(player.getName() + " du skal betale " + taxField.getTax() + " i skat");
             player.getAccount().withdraw(taxField.getTax());
             gui_player.setBalance(player.getAccount().getBalance());
-        } else if (field instanceof Chance) {
 
+        } else if (field instanceof Start) {
+            gui.displayChanceCard(player.getName() + " du er landet på start og modtager 200");
+            player.getAccount().deposit(200);
+            gui_player.setBalance(player.getAccount().getBalance());
         }
     }
 }
+
 
 
 

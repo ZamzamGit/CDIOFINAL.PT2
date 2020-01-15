@@ -12,16 +12,9 @@ public class Monopoly {
 
     public Monopoly() {
         this.gui = new GameLogic();
-
-
     }
 
-    public void kast() {
-
-    }
-
-
-    public void numberOfPlayers() {
+    public void setUp() {
 
         int antal = Integer.parseInt(gui.getUserButtonPressed("Hvor mange spillere?", new String[]{"2", "3", "4", "5", "6"}));
 
@@ -32,10 +25,9 @@ public class Monopoly {
             players[i] = new Player();
             players[i].setId(i);
             players[i].setName(name);
-
         }
         gui.addPlayers(players);
-        gui.move(players);
+        gui.movePlayer(players);
     }
 }
 

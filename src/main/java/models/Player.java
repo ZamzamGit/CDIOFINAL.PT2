@@ -7,7 +7,7 @@ public class Player {
     private String name;
     private int location;
     private Account account;
-    private Dice dice = new Dice(1);
+    private Dice dice = new Dice();
     private int terning1, terning2;
     private int terningSum;
 
