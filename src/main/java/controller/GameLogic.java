@@ -1,14 +1,10 @@
 package controller;
 
-import fields.Field;
-import fields.GoToJail;
-import fields.Jail;
-import fields.Street;
+import fields.*;
 import gui_fields.*;
 import gui_main.GUI;
 import models.Board;
 import models.Player;
-
 import java.awt.*;
 import java.util.Locale;
 
@@ -169,7 +165,7 @@ public class GameLogic {
 
                 if (passedStart == true) {
                     player[i].setLocation(newLocation);
-                    player[i].getAccount().deposit(0);
+                    player[i].getAccount().deposit(200);
                     players[i].setBalance(player[i].getAccount().getBalance());
                 } else {
 
@@ -193,7 +189,6 @@ public class GameLogic {
                     case "Ja":
                         streetField.setOwner(player);
                         streetField.setOwned(true);
-
                         gui.displayChanceCard(player.getName() + " køber feltet for " + streetField.getValue());
                         player.getAccount().withdraw(streetField.getValue());
                         gui_player.setBalance(player.getAccount().getBalance());
@@ -215,9 +210,15 @@ public class GameLogic {
 
         } else if (field instanceof GoToJail) {
             gui.displayChanceCard(player.getName() + " går i fængsel");
+            fields[player.getLocation()].setCar(gui_player, false);
+            newLocation = (player.getLocation() + 20) % fields.length;
+            fields[newLocation].setCar(gui_player, true);
 
-
-
+        } else if(field instanceof Tax) {
+            Tax taxField = ((Tax) field);
+            gui.displayChanceCard(player.getName() + " du skal betale " + taxField.getTax() + " i skat");
+            player.getAccount().withdraw(taxField.getTax());
+            gui_player.setBalance(player.getAccount().getBalance());
         }
     }
 }

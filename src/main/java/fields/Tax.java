@@ -7,21 +7,14 @@ import java.awt.*;
 
 public class Tax extends Field {
 
-    private int value;
+    private int tax;
 
-    public Tax(String name, int value,  Color color) {
+    public Tax(String name, int tax,  Color color) {
         super(name, color);
-        this.value = value;
-    }
-    @Override
-    public int getValue() {
-        return value;
+        this.tax = tax;
     }
 
-
-    public void landOnTax (Player player, GameLogic gui) {
-        gui.showMessage(player.getName() + " du skal betale " + value + " i skat");
-        player.getAccount().withdraw(value);
-
+    public int getTax() {
+        return tax;
     }
 }
