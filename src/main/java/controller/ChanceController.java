@@ -20,7 +20,8 @@ public class ChanceController {
     }
 
     private void moveFiveStepsForward(Player player, GUI_Player gui_player, GUI gui, GUI_Field[] fields) {
-        gui.displayChanceCard(player.getName() + ", ryk fem felter frem");
+        gui.displayChanceCard(player.getName() + ", trækker et chancekort og får 'ryk fem felter frem'");
+        gui.showMessage("Aktivér chancekortet");
         fields[player.getLocation()].setCar(gui_player, false);
         int newLokation = (player.getLocation() + 5) % fields.length;
         player.setLocation(newLokation);

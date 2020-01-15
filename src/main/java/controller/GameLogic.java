@@ -268,8 +268,7 @@ public class GameLogic {
                     chanceController.landOnChance(player, gui_player, gui, fields);
 
                 } else if (field instanceof Jail) {
-                    gui.displayChanceCard("Du er på besøg i fængslet");
-
+                    gui.displayChanceCard(player.getName() + ", du er på besøg i fængslet");
                 }
             }
         }
