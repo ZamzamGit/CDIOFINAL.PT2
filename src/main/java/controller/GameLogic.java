@@ -69,6 +69,11 @@ public class GameLogic {
 
             GUI_Refuge refuge = new GUI_Refuge("default", "", "Helle", "", Color.WHITE, Color.BLACK);
             fields[20] = refuge;
+
+            GUI_Tax tax = new GUI_Tax("Skat", "Betal 200", "", Color.LIGHT_GRAY, Color.BLACK);
+            GUI_Tax tax2 = new GUI_Tax("Skat", "Betal 100", "", Color.LIGHT_GRAY, Color.BLACK);
+            fields[4] = tax;
+            fields[38] = tax2;
         }
         gui = new GUI(fields);
     }
