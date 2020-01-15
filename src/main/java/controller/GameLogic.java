@@ -142,7 +142,7 @@ public class GameLogic {
         while (true) {
 
             for (int i = 0; i < player.length; i++) {
-                gui.getUserButtonPressed(player[i].getName() + ",  slå med terning", "OK");
+                gui.getUserButtonPressed(player[i].getName() + ",  slå med terningerne", "OK");
 
                 player[i].diceRoll();
 
@@ -197,7 +197,7 @@ public class GameLogic {
                         gui_player.setBalance(player.getAccount().getBalance());
                         break;
                     default:
-                        displayChanceCard("Du køber ikke feltet");
+                        displayChanceCard(player.getName() +  " køber ikke feltet");
                 }
             } else if (player == streetField.getOwner()) {
                 displayChanceCard(player.getName() + ", du er landet på dit eget felt");
@@ -228,6 +228,13 @@ public class GameLogic {
             gui.displayChanceCard(player.getName() + " du er landet på start og modtager 200");
             player.getAccount().deposit(200);
             gui_player.setBalance(player.getAccount().getBalance());
+
+        } else if (field instanceof Parking) {
+            gui.displayChanceCard(player.getName() + ", tag dig en pause");
+
+        } else if (field instanceof Shipping) {
+            gui.displayChanceCard("");
+
         }
     }
 }
