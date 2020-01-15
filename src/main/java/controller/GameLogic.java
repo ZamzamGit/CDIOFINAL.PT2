@@ -226,7 +226,9 @@ public class GameLogic {
 
         } else if (field instanceof Parking) {
             gui.displayChanceCard(player.getName() + ", tag dig en pause");
+
         } else if (field instanceof Shipping) {
+            gui.displayChanceCard("");
 
         }
     }
