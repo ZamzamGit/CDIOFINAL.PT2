@@ -280,6 +280,8 @@ public class GameLogic {
                         break;
                     default:
                         displayChanceCard(player.getName() + " køber ikke feltet");
+
+                        System.out.println();
                 }
             } else if (player == shipField.getOwner()) {
                 displayChanceCard(player.getName() + ", du er landet på dit eget felt");
