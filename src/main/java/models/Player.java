@@ -8,8 +8,8 @@ public class Player {
     private int location;
     private Account account;
     private Dice dice = new Dice();
-    private int terning1, terning2;
-    private int terningSum;
+    private int dice1, dice2;
+    private int diceSum;
     private int amountOfShipping = -1;
     private int amountOfBrewery = -1;
     private boolean lost = false;
@@ -23,9 +23,9 @@ public class Player {
     }
 
     public void diceRoll() {
-        terning1 = dice.roll();
-        terning2 = dice.roll();
-        terningSum = terning1 + terning2;
+        dice1 = dice.roll();
+        dice2 = dice.roll();
+        diceSum = dice1 + dice2;
     }
 
     public int getLocation() {
@@ -46,16 +46,16 @@ public class Player {
         this.location = location;
     }
 
-    public int getTerning1() {
-        return terning1;
+    public int getDice1() {
+        return dice1;
     }
 
-    public int getTerning2() {
-        return terning2;
+    public int getDice2() {
+        return dice2;
     }
 
-    public int getTerningSum() {
-        return terningSum;
+    public int getDiceSum() {
+        return diceSum;
     }
 
     public int getId() {

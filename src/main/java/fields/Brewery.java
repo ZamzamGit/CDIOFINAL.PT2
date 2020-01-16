@@ -11,8 +11,8 @@ public class Brewery extends Field {
     private Player owner;
     private boolean owned = false;
 
-    public Brewery(String name, int value, Color color) {
-        super(name, color);
+    public Brewery(int id, String name, int value, Color color) {
+        super(id, name, color);
         this.value = value;
     }
 

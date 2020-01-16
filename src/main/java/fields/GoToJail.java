@@ -7,8 +7,8 @@ import java.awt.*;
 
 public class  GoToJail extends Field {
 
-    public GoToJail(String name, Color color) {
-        super(name, color);
+    public GoToJail(int id, String name, Color color) {
+        super(id, name, color);
     }
 
 }

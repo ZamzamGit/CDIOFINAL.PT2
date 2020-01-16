@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class Parking extends Field {
 
-    public Parking(String name, Color color) {
-        super(name, color);
+    public Parking(int id, String name, Color color) {
+        super(id, name, color);
     }
 }

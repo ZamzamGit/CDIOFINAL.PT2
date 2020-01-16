@@ -7,8 +7,8 @@ import java.awt.*;
 
 public class Jail extends Field {
 
-    public Jail(String name, Color color) {
-        super(name, color);
+    public Jail(int id, String name, Color color) {
+        super(id, name, color);
     }
 }
 
