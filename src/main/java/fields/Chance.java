@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class Chance extends Field {
 
-    public Chance(String name, Color color) {
-        super(name, color);
+    public Chance(int id, String name, Color color) {
+        super(id, name, color);
     }
 }

@@ -9,18 +9,5 @@ public class Main {
         Monopoly monopoly = new Monopoly();
 
         monopoly.setUp();
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

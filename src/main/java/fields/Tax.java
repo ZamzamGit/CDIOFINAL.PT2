@@ -9,8 +9,8 @@ public class Tax extends Field {
 
     private int tax;
 
-    public Tax(String name, int tax,  Color color) {
-        super(name, color);
+    public Tax(int id, String name, int tax,  Color color) {
+        super(id, name, color);
         this.tax = tax;
     }
 

@@ -13,8 +13,8 @@ public class Shipping extends Field {
     private boolean owned = false;
 
 
-    public Shipping(String name, int value, int rent, Color color) {
-        super(name, color);
+    public Shipping(int id, String name, int value, int rent, Color color) {
+        super(id, name, color);
         this.value = value;
         this.rent = rent;
     }

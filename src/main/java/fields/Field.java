@@ -12,7 +12,8 @@ public class Field {
     private Color color;
     private int id;
 
-    public Field(String name, Color color) {
+    public Field(int id,String name, Color color) {
+        this.id = id;
         this.name = name;
         this.color = color;
     }

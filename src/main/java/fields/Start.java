@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class Start extends Field {
 
-    public Start(String name, Color color) {
-        super(name, color);
+    public Start(int id, String name, Color color) {
+        super(id, name, color);
     }
 }
