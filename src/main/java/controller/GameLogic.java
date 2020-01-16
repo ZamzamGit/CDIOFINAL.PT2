@@ -21,6 +21,8 @@ public class GameLogic {
     private int currentPlayers;
     private int rollingDouble = 0;
     private int combo = 0;
+    private BuyHouseController b = new BuyHouseController();
+
 
     public GameLogic() {
         String[][] fieldText = board.getFieldText();
@@ -140,8 +142,9 @@ public class GameLogic {
 
             for (int i = 0; i < player.length; i++) {
 
-
                 if (player[i].getLost() == 0 && gameOn == true) {
+
+
 
                     gui.getUserButtonPressed(player[i].getName() + ",  slå med terningerne", "OK");
 
@@ -152,13 +155,13 @@ public class GameLogic {
 
                     newLocation = (player[i].getLocation() + player[i].getDiceSum());
 
-                    if (newLocation > fields.length) {
-                        passedStart = true;
-                    } else {
-                        passedStart = false;
+                if (newLocation > fields.length) {
+                    passedStart = true;
+                } else {
+                    passedStart = false;
 
-                    }
-                    newLocation = newLocation % fields.length;
+                }
+                newLocation = newLocation % fields.length;
 
                     fields[player[i].getLocation()].setCar(players[i], false);
 
@@ -167,6 +170,8 @@ public class GameLogic {
                     fields[newLocation].setCar(players[i], true);
 
                     landOnField(player[i], players[i]);
+
+                    //b.test(players[i], gui, fields);
 
                     if (passedStart == true) {
                         player[i].getAccount().deposit(200);
@@ -188,10 +193,8 @@ public class GameLogic {
                 }
                 checkIfGameOn(player);
             }
-
         }
     }
-
 
     public void landOnField(Player player, GUI_Player gui_player) {
 
@@ -346,13 +349,12 @@ public class GameLogic {
             gui.displayChanceCard(player.getName() + ", du er på besøg i fængslet");
 
 
-        } else if (field instanceof Brewery) {
-            Brewery breweryField = ((Brewery) field);
-            System.out.println(player.getDiceSum());
-            // int rent = player.getTerningSum()*(4+6*breweryField.getOwner().getAmountOfBrewery());
+            } else if (field instanceof Brewery) {
+                Brewery breweryField = ((Brewery) field);
+                System.out.println(player.getDiceSum());
+                // int rent = player.getTerningSum()*(4+6*breweryField.getOwner().getAmountOfBrewery());
 
-            // int rent = player.getTerningSum()*(4+6*breweryField.getOwner().getAmountOfBrewery());
-            gui.displayChanceCard(player.getName() + " lander på et ledig felt");
+                gui.displayChanceCard(player.getName() + " lander på et ledig felt");
 
             if (!(breweryField.isOwned())) {
 
