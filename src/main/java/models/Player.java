@@ -15,7 +15,7 @@ public class Player {
     private boolean lost = false;
 
     public Player() {
-        account = new Account(300);
+        account = new Account(1000);
     }
 
     public String getName() {
