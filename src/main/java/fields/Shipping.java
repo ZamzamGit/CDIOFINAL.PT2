@@ -25,11 +25,9 @@ public class Shipping extends Field {
     }
 
     public void setOwner(Player owner) {
-        this.owner = owner;
-
-
-
-
+        {
+            this.owner = owner;
+        }
     }
 
     public int getRent() {
@@ -47,6 +45,5 @@ public class Shipping extends Field {
     public void setOwned(boolean owned) {
         this.owned = owned;
     }
-
 
 }

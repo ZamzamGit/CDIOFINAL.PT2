@@ -12,9 +12,10 @@ public class Player {
     private int terningSum;
     private int amountOfShipping = -1;
     private int amountOfBrewery = -1;
+    private boolean lost = false;
 
     public Player() {
-        account = new Account(1500);
+        account = new Account(300);
     }
 
     public String getName() {
@@ -34,6 +35,8 @@ public class Player {
     public Account getAccount() {
         return account;
     }
+
+
 
     public void setName(String name) {
         this.name = name;
@@ -59,6 +62,10 @@ public class Player {
         return id;
     }
 
+    public void isLost(boolean lost) {
+        this.lost = lost;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -76,6 +83,14 @@ public class Player {
     public int getAmountOfBrewery() {
         return amountOfBrewery;
     }
+
+    public int getLost(){
+    if (lost==true){
+        return 1;
+    }else{
+        return 0;
+    }
+}
 }
 
 
