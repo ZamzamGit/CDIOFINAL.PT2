@@ -15,7 +15,7 @@ public class Player {
     private boolean lost = false;
 
     public Player() {
-        account = new Account(300);
+        account = new Account(800);
     }
 
     public String getName() {
@@ -35,7 +35,6 @@ public class Player {
     public Account getAccount() {
         return account;
     }
-
 
 
     public void setName(String name) {
@@ -70,27 +69,29 @@ public class Player {
         this.id = id;
     }
 
-    public void adShipping(){
-       amountOfShipping +=1;
+    public void adShipping() {
+        amountOfShipping += 1;
     }
 
-    public int getAmountOfShipping(){
+    public int getAmountOfShipping() {
         return amountOfShipping;
     }
 
-    public void adBrewery(){amountOfBrewery+=1;}
+    public void adBrewery() {
+        amountOfBrewery += 1;
+    }
 
     public int getAmountOfBrewery() {
         return amountOfBrewery;
     }
 
-    public int getLost(){
-    if (lost==true){
-        return 1;
-    }else{
-        return 0;
+    public int getLost() {
+        if (lost == true) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
-}
 }
 
 
