@@ -10,6 +10,7 @@ public class Field {
 
     private String name;
     private Color color;
+    private int id;
 
     public Field(String name, Color color) {
         this.name = name;
@@ -26,6 +27,14 @@ public class Field {
 
     public int getValue() {
         return 0;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
 

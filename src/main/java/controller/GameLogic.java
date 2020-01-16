@@ -174,6 +174,7 @@ public class GameLogic {
                     players[i].setBalance(player[i].getAccount().getBalance());
 
                 }
+                //Show options [køb huse/hoteller eller afslut tur]
             }
         }
     }
@@ -203,6 +204,8 @@ public class GameLogic {
                 }
             } else if (player == streetField.getOwner()) {
                 displayChanceCard(player.getName() + ", du er landet på dit eget felt");
+                GUI_Street gui_street = (GUI_Street) fields[field.getId()];
+                gui_street.setHouses(0);
 
             } else {
                 gui.displayChanceCard(player.getName() + ", feltet er desværre ejet betal " + streetField.getRent() + " til " + streetField.getOwner().getName());
