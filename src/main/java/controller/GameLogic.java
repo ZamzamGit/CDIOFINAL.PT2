@@ -16,6 +16,8 @@ public class GameLogic {
     private Board board = new Board();
     private int newLocation;
     boolean passedStart = false;
+    private ChanceController chanceController = new ChanceController();
+
 
     public GameLogic() {
 
@@ -144,6 +146,7 @@ public class GameLogic {
             for (int i = 0; i < player.length; i++) {
                 gui.getUserButtonPressed(player[i].getName() + ",  slå med terningerne", "OK");
 
+
                 player[i].diceRoll();
 
                 gui.setDice(player[i].getTerning1(), player[i].getTerning2());
@@ -167,12 +170,9 @@ public class GameLogic {
                 landOnField(player[i], players[i]);
 
                 if (passedStart == true) {
-                    player[i].setLocation(newLocation);
                     player[i].getAccount().deposit(200);
                     players[i].setBalance(player[i].getAccount().getBalance());
-                } else {
 
-                    player[i].setLocation(newLocation);
                 }
             }
         }
@@ -186,6 +186,8 @@ public class GameLogic {
             Street streetField = ((Street) field);
             if (!(streetField.isOwned())) {
 
+                gui.displayChanceCard(player.getName() + " lander på et ledig felt");
+
                 switch (gui.getUserButtonPressed(player.getName() + ", vil du købe feltet for " + streetField.getValue() + " med en" +
                         " leje på " + streetField.getRent() + "?", "Ja", "Nej")) {
 
@@ -197,7 +199,7 @@ public class GameLogic {
                         gui_player.setBalance(player.getAccount().getBalance());
                         break;
                     default:
-                        displayChanceCard(player.getName() +  " køber ikke feltet");
+                        displayChanceCard(player.getName() + " køber ikke feltet");
                 }
             } else if (player == streetField.getOwner()) {
                 displayChanceCard(player.getName() + ", du er landet på dit eget felt");
@@ -212,11 +214,13 @@ public class GameLogic {
             }
 
         } else if (field instanceof GoToJail) {
-            gui.displayChanceCard(player.getName() + " går i fængsel");
+            gui.displayChanceCard(player.getName() + " går i fængsel, og betaler 50 kr. for at komme ud næste runde");
             fields[player.getLocation()].setCar(gui_player, false);
             newLocation = 10;
-            //newLocation = (player.getLocation() + 20) % fields.length;
+            player.setLocation(newLocation);
             fields[newLocation].setCar(gui_player, true);
+            player.getAccount().withdraw(50);
+            gui_player.setBalance(player.getAccount().getBalance());
 
         } else if (field instanceof Tax) {
             Tax taxField = ((Tax) field);
@@ -233,11 +237,113 @@ public class GameLogic {
             gui.displayChanceCard(player.getName() + ", tag dig en pause");
 
         } else if (field instanceof Shipping) {
-            gui.displayChanceCard("");
+            Shipping shipField = ((Shipping) field);
+            if (!(shipField.isOwned())) {
 
+                gui.displayChanceCard(player.getName() + " lander på et ledig felt");
+
+                switch (gui.getUserButtonPressed(player.getName() + ", vil du købe feltet for " + shipField.getValue() + " med en" +
+                        " leje på " + shipField.getRent() + "?", "Ja", "Nej")) {
+                    case "Ja":
+                        player.adShipping();
+                        shipField.setOwner(player);
+                        shipField.setOwned(true);
+                        gui.displayChanceCard(player.getName() + " køber feltet for " + shipField.getValue());
+                        player.getAccount().withdraw(shipField.getValue());
+                        gui_player.setBalance(player.getAccount().getBalance());
+                        //System.out.println(player.getAmountOfShipping());
+
+                        break;
+                    default:
+                        displayChanceCard(player.getName() + " køber ikke feltet");
+                }
+            } else if (player == shipField.getOwner()) {
+                displayChanceCard(player.getName() + ", du er landet på dit eget felt");
+
+            } else {
+                gui.displayChanceCard(player.getName() + ", feltet er desværre ejet betal " + shipField.getRent()
+                        * Math.pow(2, shipField.getOwner().getAmountOfShipping()) + " til " + shipField.getOwner().getName());
+
+                player.getAccount().withdraw(shipField.getRent());
+                gui_player.setBalance(player.getAccount().getBalance());
+
+                shipField.getOwner().getAccount().deposit(shipField.getRent());
+                players[shipField.getOwner().getId()].setBalance(shipField.getOwner().getAccount().getBalance());
+            }
+
+        } else if (field instanceof Chance) {
+
+            int chanceCard = (int) (Math.random() * 7);
+
+            switch (chanceCard) {
+                case 0:
+                    chanceController.moveFiveStepsForward(player, gui_player, gui, fields);
+                    landOnField(player, gui_player);
+                    break;
+                case 1:
+                    chanceController.moveTwoStepsBack(player, gui_player, gui, fields);
+                    landOnField(player, gui_player);
+                    break;
+                case 2:
+                    chanceController.moveToStart(player, gui_player, gui, fields);
+                    landOnField(player, gui_player);
+                    break;
+                case 3:
+                    chanceController.parkingFine(player, gui_player, gui, fields);
+                    break;
+                case 4:
+                    chanceController.newTire(player, gui_player, gui, fields);
+                    break;
+                case 5:
+                    chanceController.recieveAmount(player, gui_player, gui, fields);
+                    break;
+                case 6:
+                    chanceController.moveToRådhuspladsen(player, gui_player, gui, fields);
+                    landOnField(player, gui_player);
+            }
+        } else if (field instanceof Jail) {
+            gui.displayChanceCard(player.getName() + ", du er på besøg i fængslet");
+
+
+        } else if (field instanceof Brewery) {
+            Brewery breweryField = ((Brewery) field);
+            System.out.println(player.getTerningSum());
+           // int rent = player.getTerningSum()*(4+6*breweryField.getOwner().getAmountOfBrewery());
+            gui.displayChanceCard(player.getName() + " lander på et ledig felt");
+
+            if (!(breweryField.isOwned())) {
+
+                switch (gui.getUserButtonPressed(player.getName() + ", vil du købe feltet for " + breweryField.getValue(), "Ja", "Nej")) {
+
+                    case "Ja":
+                        player.adBrewery();
+                        breweryField.setOwner(player);
+                        breweryField.setOwned(true);
+                        gui.displayChanceCard(player.getName() + " køber feltet for " + breweryField.getValue());
+                        player.getAccount().withdraw(breweryField.getValue());
+                        gui_player.setBalance(player.getAccount().getBalance());
+                        System.out.println("brewery "+ player.getAmountOfBrewery());
+                        break;
+                    default:
+                        displayChanceCard(player.getName() + " køber ikke feltet");
+                }
+            } else if (player == breweryField.getOwner()) {
+                displayChanceCard(player.getName() + ", du er landet på dit eget felt");
+
+            } else {
+                gui.displayChanceCard(player.getName() + ", feltet er desværre ejet betal " + player.getTerningSum()*(4+6*breweryField.getOwner().getAmountOfBrewery()) + " til " + breweryField.getOwner().getName());
+                player.getAccount().withdraw(player.getTerningSum()*(4+6*breweryField.getOwner().getAmountOfBrewery()));
+                gui_player.setBalance(player.getAccount().getBalance());
+
+                breweryField.getOwner().getAccount().deposit(player.getTerningSum()*(4+6*breweryField.getOwner().getAmountOfBrewery()));
+                players[breweryField.getOwner().getId()].setBalance(breweryField.getOwner().getAccount().getBalance());
+            }
         }
     }
 }
+
+
+
 
 
 
