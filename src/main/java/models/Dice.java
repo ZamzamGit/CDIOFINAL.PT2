@@ -2,7 +2,7 @@ package models;
 
 public class Dice {
 
-    private final int MAX = 6;
+    private final int MAX = 1;
     private int faceValue;
 
     public Dice() {

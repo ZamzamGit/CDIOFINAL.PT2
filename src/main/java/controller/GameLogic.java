@@ -186,9 +186,8 @@ public class GameLogic {
                         rollingDouble = i;
                         checkIfDoubleDice(player);
                     }
-                    else {
-                        combo = 0;
-                    }
+
+
                 }
                 checkIfGameOn(player);
             }
@@ -458,6 +457,8 @@ public class GameLogic {
                 }
                 if (player[rollingDouble].getDice1() == player[rollingDouble].getDice2()) {
                     checkIfDoubleDice(player);
+                }else{
+                    combo = 0;
                 }
             } else {
 
@@ -468,7 +469,7 @@ public class GameLogic {
 
                 landOnField(player[rollingDouble], players[rollingDouble]);
 
-                gui.displayChanceCard(player[rollingDouble].getName()+ ", du er blevet fanget i færdsel overskridelse og bliver derfor taget til fængsel");
+                gui.displayChanceCard(player[rollingDouble].getName()+ ", du er blevet fanget i færdsel overskridelse og bliver derfor taget til fængsel og betaler 50 for at komme ud næste runde");
                 combo = 0;
             }
         }
