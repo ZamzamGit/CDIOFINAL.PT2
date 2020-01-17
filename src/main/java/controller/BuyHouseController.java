@@ -38,12 +38,13 @@ public class BuyHouseController {
                             } else if (street.getHouse() == 5) {
                                 street.setRent(street.getHouse());
                                 gui_street.setHotel(true);
-
-                            } else {
-                                gui.displayChanceCard(player.getName() + ", du kan ikke købe flere ejendomme");
                             }
-                        }
-                        //TODO : Hotels are not handled atm
+                            } else {
+                                gui.displayChanceCard(player.getName() + ", du kan ikke købe flere ejendomme på dette felt");
+                                buyHouse(player, gui_player, gui, fields, gui_fields);
+                            }
+
+
 
                     }
                 }
@@ -52,7 +53,7 @@ public class BuyHouseController {
     }
 
     private String[] getFieldsOwnedByPlayer(Player player, Field[] fields) {
-        //TODO: Make sure you cant build more than 5 houses
+
         int count = 0;
         for (Field field : fields) {
             if (field instanceof Street) {
