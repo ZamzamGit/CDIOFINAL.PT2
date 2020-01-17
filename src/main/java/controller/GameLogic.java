@@ -156,9 +156,6 @@ public class GameLogic {
 
                 if (newLocation > fields.length) {
                     passedStart = true;
-                } else {
-                    passedStart = false;
-
                 }
                 newLocation = newLocation % fields.length;
 
@@ -434,8 +431,6 @@ public class GameLogic {
 
                 if (newLocation > fields.length) {
                     passedStart = true;
-                } else {
-                    passedStart = false;
 
                 }
                 newLocation = newLocation % fields.length;
