@@ -25,20 +25,24 @@ public class BuyHouseController {
                     if (thisIsTheField) {
 
                         Street street = (Street) field;
-
-                        if (street.getHouse() < 4) {
+                        GUI_Street gui_street = (GUI_Street) gui_fields[street.getId()];
+                        if (street.getHouse() < 5) {
                             gui.showMessage(player.getName() + " køber huset for " + street.getHousePrice());
                             street.setHouse(street.getHouse() + 1);
-                            GUI_Street gui_street = (GUI_Street) gui_fields[street.getId()];
-                            gui_street.setHouses(street.getHouse());
-                            player.getAccount().withdraw(street.getHousePrice());
-                            gui_player.setBalance(player.getAccount().getBalance());
-                            street.setRent(street.getHouse());
 
-                        } else {
-                            gui.displayChanceCard(player.getName() + ", du kan ikke bygge flere huse");
+                            if (street.getHouse() < 5) {
+                                gui_street.setHouses(street.getHouse());
+                                player.getAccount().withdraw(street.getHousePrice());
+                                gui_player.setBalance(player.getAccount().getBalance());
+                                street.setRent(street.getHouse());
+                            } else if (street.getHouse() == 5) {
+                                street.setRent(street.getHouse());
+                                gui_street.setHotel(true);
+
+                            } else {
+                                gui.displayChanceCard(player.getName() + ", du kan ikke købe flere ejendomme");
+                            }
                         }
-
                         //TODO : Hotels are not handled atm
 
                     }
