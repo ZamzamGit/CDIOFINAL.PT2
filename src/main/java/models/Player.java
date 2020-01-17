@@ -98,7 +98,6 @@ public class Player {
         jailTime-=1;
     }
 
-
 }
 
 
