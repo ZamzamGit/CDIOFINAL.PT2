@@ -15,10 +15,12 @@ public class GameLogic {
     private GUI_Field[] fields;
     private Board board = new Board();
     private int newLocation;
-    boolean passedStart = false;
+    private boolean passedStart = false;
     private ChanceController chanceController = new ChanceController();
     private boolean gameOn = true;
-    private int currentPlayers;
+    private int rollingDouble = 0;
+    private int combo = 0;
+    private BuyHouseController b = new BuyHouseController();
 
 
     public GameLogic() {
@@ -139,24 +141,21 @@ public class GameLogic {
 
             for (int i = 0; i < player.length; i++) {
 
+                if (player[i].getLost() == 0 && gameOn) {
 
 
-                if (player[i].getLost() ==0) {
 
                     gui.getUserButtonPressed(player[i].getName() + ",  slå med terningerne", "OK");
 
 
                     player[i].diceRoll();
 
-                gui.setDice(player[i].getDice1(), player[i].getDice2());
+                    gui.setDice(player[i].getDice1(), player[i].getDice2());
 
-                newLocation = (player[i].getLocation() + player[i].getDiceSum());
+                    newLocation = (player[i].getLocation() + player[i].getDiceSum());
 
                 if (newLocation > fields.length) {
                     passedStart = true;
-                } else {
-                    passedStart = false;
-
                 }
                 newLocation = newLocation % fields.length;
 
@@ -168,7 +167,9 @@ public class GameLogic {
 
                     landOnField(player[i], players[i]);
 
-                    if (passedStart == true) {
+                    //b.test(players[i], gui, fields);
+
+                    if (passedStart) {
                         player[i].getAccount().deposit(200);
                         players[i].setBalance(player[i].getAccount().getBalance());
 
@@ -180,6 +181,13 @@ public class GameLogic {
                         gui.displayChanceCard(player[i].getName() + ", er ude af spillet");
 
 
+                    }
+                    if (player[i].getDice1() == player[i].getDice2()) {
+                        rollingDouble = i;
+                        checkIfDoubleDice(player);
+                    }
+                    else {
+                        combo = 0;
                     }
                 }
                 checkIfGameOn(player);
@@ -213,17 +221,6 @@ public class GameLogic {
             } else if (player == streetField.getOwner()) {
                 displayChanceCard(player.getName() + ", du er landet på dit eget felt");
 
-                switch (gui.getUserButtonPressed("Vil du købe grund?", "Ja", "Nej")) {
-
-                    case "Ja":
-                        GUI_Street gui_street = (GUI_Street) fields[field.getId()];
-                        //gui_street.setHouses(4);
-                        gui_street.setHotel(true);
-                        streetField.setRent(streetField.getRent() * 2);
-                        gui.displayChanceCard("Den nye leje er nu på " + streetField.getRent());
-                        break;
-                    default: displayChanceCard(player.getName() + ", køber ikke grund");
-                }
             } else {
                 if (streetField.getOwner().getAccount().getBalance() > 0) {
                     gui.displayChanceCard(player.getName() + ", feltet er desværre ejet betal " + streetField.getRent() + " til " + streetField.getOwner().getName());
@@ -339,13 +336,12 @@ public class GameLogic {
             gui.displayChanceCard(player.getName() + ", du er på besøg i fængslet");
 
 
-        } else if (field instanceof Brewery) {
-            Brewery breweryField = ((Brewery) field);
-            System.out.println(player.getDiceSum());
-           // int rent = player.getTerningSum()*(4+6*breweryField.getOwner().getAmountOfBrewery());
+            } else if (field instanceof Brewery) {
+                Brewery breweryField = ((Brewery) field);
+                System.out.println(player.getDiceSum());
+                // int rent = player.getTerningSum()*(4+6*breweryField.getOwner().getAmountOfBrewery());
 
-            // int rent = player.getTerningSum()*(4+6*breweryField.getOwner().getAmountOfBrewery());
-            gui.displayChanceCard(player.getName() + " lander på et ledig felt");
+                gui.displayChanceCard(player.getName() + " lander på et ledig felt");
 
             if (!(breweryField.isOwned())) {
 
@@ -384,7 +380,7 @@ public class GameLogic {
 
     public void checkIfGameOn(Player[] player) {
 
-        currentPlayers = players.length;
+        int currentPlayers = players.length;
 
         switch (player.length) {
             case 2:
@@ -416,6 +412,66 @@ public class GameLogic {
 
         }
 
+    }
+
+    public void checkIfDoubleDice(Player[] player) {
+
+        combo += 1;
+
+        if (player[rollingDouble].getLost() == 0 && gameOn) {
+            if (combo < 3) {
+                gui.displayChanceCard(player[rollingDouble].getName() + ", du har slået double og må derfor rulle igen");
+                gui.getUserButtonPressed(player[rollingDouble].getName() + ", slå med terningerne igen", "OK");
+
+                player[rollingDouble].diceRoll();
+
+                gui.setDice(player[rollingDouble].getDice1(), player[rollingDouble].getDice2());
+
+                newLocation = (player[rollingDouble].getLocation() + player[rollingDouble].getDiceSum());
+
+                if (newLocation > fields.length) {
+                    passedStart = true;
+
+                }
+                newLocation = newLocation % fields.length;
+
+                fields[player[rollingDouble].getLocation()].setCar(players[rollingDouble], false);
+
+                player[rollingDouble].setLocation(newLocation);
+
+                fields[newLocation].setCar(players[rollingDouble], true);
+
+                landOnField(player[rollingDouble], players[rollingDouble]);
+
+                if (passedStart) {
+                    player[rollingDouble].getAccount().deposit(200);
+                    players[rollingDouble].setBalance(player[rollingDouble].getAccount().getBalance());
+
+
+                }
+                if (player[rollingDouble].getAccount().getBalance() < 0) {
+                    fields[player[rollingDouble].getLocation()].setCar(players[rollingDouble], false);
+                    player[rollingDouble].isLost(true);
+                    gui.displayChanceCard(player[rollingDouble].getName() + ", er ude af spillet");
+
+
+                }
+                if (player[rollingDouble].getDice1() == player[rollingDouble].getDice2()) {
+                    checkIfDoubleDice(player);
+                }
+            } else {
+
+
+                player[rollingDouble].setLocation(30);
+
+                fields[newLocation].setCar(players[rollingDouble], false);
+
+                landOnField(player[rollingDouble], players[rollingDouble]);
+
+                gui.displayChanceCard(player[rollingDouble].getName()+ ", du er blevet fanget i færdsel overskridelse og bliver derfor taget til fængsel");
+                combo = 0;
+            }
+        }
     }
 }
 
