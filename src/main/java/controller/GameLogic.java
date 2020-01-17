@@ -222,18 +222,6 @@ public class GameLogic {
             } else if (player == streetField.getOwner()) {
                 displayChanceCard(player.getName() + ", du er landet på dit eget felt");
 
-                switch (gui.getUserButtonPressed("Vil du købe grund?", "Ja", "Nej")) {
-
-                    case "Ja":
-                        GUI_Street gui_street = (GUI_Street) fields[field.getId()];
-                        //gui_street.setHouses(4);
-                        gui_street.setHotel(true);
-                        streetField.setRent(streetField.getRent() * 2);
-                        gui.displayChanceCard("Den nye leje er nu på " + streetField.getRent());
-                        break;
-                    default:
-                        displayChanceCard(player.getName() + ", køber ikke grund");
-                }
             } else {
                 if (streetField.getOwner().getAccount().getBalance() > 0) {
                     gui.displayChanceCard(player.getName() + ", feltet er desværre ejet betal " + streetField.getRent() + " til " + streetField.getOwner().getName());
@@ -429,12 +417,11 @@ public class GameLogic {
 
     public void checkIfDoubleDice(Player[] player) {
 
-
         combo += 1;
 
         if (player[rollingDouble].getLost() == 0 && gameOn == true) {
             if (combo < 3) {
-                gui.displayChanceCard(player[rollingDouble]+ ", du har slået double og må derfor rulle igen");
+                gui.displayChanceCard(player[rollingDouble].getName() + ", du har slået double og må derfor rulle igen");
                 gui.getUserButtonPressed(player[rollingDouble].getName() + ", slå med terningerne igen", "OK");
 
 
