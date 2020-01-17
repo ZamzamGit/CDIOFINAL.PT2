@@ -16,7 +16,7 @@ public class Player {
     private int jailTime=0;
 
     public Player() {
-        account = new Account(10000);
+        account = new Account(5000);
     }
 
     public String getName() {

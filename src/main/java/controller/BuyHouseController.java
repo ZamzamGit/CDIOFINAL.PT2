@@ -15,11 +15,11 @@ public class BuyHouseController {
         if (options.length == 0)
             return;
 
-        switch (gui.getUserButtonPressed("Vil du afslutte din tur?", "Afslut tur", "Køb hus")) {
+        switch (gui.getUserButtonPressed(player.getName()+", vil du afslutte din tur?", "Afslut tur", "Køb hus")) {
 
             case "Køb hus":
 
-                String fieldName = gui.getUserSelection("Hvilken grund vil du købe et hus til", options);
+                String fieldName = gui.getUserSelection(player.getName()+", hvilken grund vil du købe et hus til", options);
                 for (Field field : fields) {
                     boolean thisIsTheField = fieldName.equals(field.getName());
                     if (thisIsTheField) {
