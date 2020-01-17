@@ -194,7 +194,7 @@ public class GameLogic {
 
                     landOnField(player[i], players[i]);
 
-                    b.buyHouse(player[i], gui, board.getField(), fields);
+                    b.buyHouse(player[i], players[i], gui, board.getField(), fields);
 
 
                     if (passedStart) {

@@ -3,13 +3,14 @@ package controller;
 import fields.Field;
 import fields.Street;
 import gui_fields.GUI_Field;
+import gui_fields.GUI_Player;
 import gui_fields.GUI_Street;
 import gui_main.GUI;
 import models.Player;
 
 public class BuyHouseController {
 
-    public void buyHouse(Player player, GUI gui, Field[] fields, GUI_Field[] gui_fields) {
+    public void buyHouse(Player player, GUI_Player gui_player, GUI gui, Field[] fields, GUI_Field[] gui_fields) {
         String[] options = getFieldsOwnedByPlayer(player, fields);
         if(options.length == 0)
             return;
@@ -24,26 +25,26 @@ public class BuyHouseController {
                  if(thisIsTheField){
 
                      Street street =  (Street) field;
-                     street.setHouse(street.getHouse()+1);
-                     GUI_Street gui_street = (GUI_Street) gui_fields[street.getId()];
-                     gui_street.setHouses(street.getHouse());
+
+                     if(street.getHouse() < 4) {
+                         gui.showMessage(player.getName() + " køber huset for " + street.getHousePrice());
+                         street.setHouse(street.getHouse() + 1);
+                         GUI_Street gui_street = (GUI_Street) gui_fields[street.getId()];
+                         gui_street.setHouses(street.getHouse());
+                         player.getAccount().withdraw(street.getHousePrice());
+                         gui_player.setBalance(player.getAccount().getBalance());
+                         street.setRent(street.getRent());
+                         gui.displayChanceCard("Den nye husleje er på " + street.getRent());
+                     } else {
+                         gui.displayChanceCard(player.getName() + ", du kan ikke bygge flere huse");
+                     }
 
                      //TODO : Hotels are not handled atm
 
                  }
              }
-
            default:
-
-
-
-
-
-
-
        }
-
-
     }
 
     private String[] getFieldsOwnedByPlayer(Player player, Field[] fields) {
@@ -58,8 +59,6 @@ public class BuyHouseController {
                     if (playerOwnsField)
                         count++;
                 }
-
-
             }
         }
         String[] options = new String[count];
@@ -80,16 +79,4 @@ public class BuyHouseController {
         }
         return options;
     }
-
-    public void test() {
-
-
-
-
-
-
-    }
-
-
-
 }
