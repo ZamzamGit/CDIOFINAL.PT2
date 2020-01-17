@@ -13,6 +13,7 @@ public class Player {
     private int amountOfShipping = -1;
     private int amountOfBrewery = -1;
     private boolean lost = false;
+    private int jailTime=0;
 
     public Player() {
         account = new Account(800);
@@ -66,6 +67,8 @@ public class Player {
         this.lost = lost;
     }
 
+    public int getLost(){ if (lost){return 1;}else{ return 0;}}
+
     public void setId(int id) {
         this.id = id;
     }
@@ -84,13 +87,18 @@ public class Player {
         return amountOfBrewery;
     }
 
-    public int getLost(){
-    if (lost==true){
-        return 1;
-    }else{
-        return 0;
+    public void setJail(int jailTime) {
+        this.jailTime = jailTime;
     }
-}
+
+    public int getJail(){
+          return jailTime;
+    }
+    public void passTime(){
+        jailTime-=1;
+    }
+
+
 }
 
 

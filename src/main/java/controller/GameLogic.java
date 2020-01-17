@@ -18,7 +18,7 @@ public class GameLogic {
     private boolean passedStart = false;
     private ChanceController chanceController = new ChanceController();
     private boolean gameOn = true;
-    private int rollingDouble = 0;
+    private int specialTurn = 0;
     private int combo = 0;
     private BuyHouseController b = new BuyHouseController();
 
@@ -139,13 +139,41 @@ public class GameLogic {
 
         while (gameOn) {
 
+
+
             for (int i = 0; i < player.length; i++) {
+
 
                 if (player[i].getLost() == 0 && gameOn) {
 
+                    if (player[i].getJail()>0) {
+                        specialTurn = i;
+                        switch (gui.getUserButtonPressed(player[i].getName()+", vil du rulle to ens eller betale 50 for at komme ud?", "Rulle", "Betal 50")) {
 
+                            case "Rulle":
 
-                    gui.getUserButtonPressed(player[i].getName() + ",  slå med terningerne", "OK");
+                                player[i].diceRoll();
+                                gui.setDice(player[i].getDice1(), player[i].getDice2());
+
+                                if (player[i].getDice1() == player[i].getDice2()) {
+                                    player[i].setJail(0);
+                                    displayChanceCard("Du er slået 2 ens og er derfor fri");
+                                    checkIfDoubleDice(player);
+                                }else{
+                                    displayChanceCard("Du har ikke rullet 2 ens og skal derfor vente");
+                                    player[i].passTime();
+
+                                }
+                              break;
+                            default:
+                                displayChanceCard("Du betaler 50 for at komme ud");
+                                player[i].getAccount().withdraw(50);
+                                players[i].setBalance(player[i].getAccount().getBalance());
+                                player[i].setJail(0);
+
+                        }
+                    }
+                        gui.getUserButtonPressed(player[i].getName() + ",  slå med terningerne", "OK");
 
 
                     player[i].diceRoll();
@@ -183,7 +211,7 @@ public class GameLogic {
 
                     }
                     if (player[i].getDice1() == player[i].getDice2()) {
-                        rollingDouble = i;
+                        specialTurn = i;
                         checkIfDoubleDice(player);
                     }
 
@@ -236,13 +264,13 @@ public class GameLogic {
             }
 
         } else if (field instanceof GoToJail) {
-            gui.displayChanceCard(player.getName() + " går i fængsel, og betaler 50 kr. for at komme ud næste runde");
+            player.setJail(3);
+            gui.displayChanceCard(player.getName() + " går i fængsel");
             fields[player.getLocation()].setCar(gui_player, false);
             newLocation = 10;
             player.setLocation(newLocation);
             fields[newLocation].setCar(gui_player, true);
-            player.getAccount().withdraw(50);
-            gui_player.setBalance(player.getAccount().getBalance());
+
 
         } else if (field instanceof Tax) {
             Tax taxField = ((Tax) field);
@@ -417,16 +445,16 @@ public class GameLogic {
 
         combo += 1;
 
-        if (player[rollingDouble].getLost() == 0 && gameOn) {
+        if (player[specialTurn].getLost() == 0 && gameOn) {
             if (combo < 3) {
-                gui.displayChanceCard(player[rollingDouble].getName() + ", du har slået double og må derfor rulle igen");
-                gui.getUserButtonPressed(player[rollingDouble].getName() + ", slå med terningerne igen", "OK");
+                gui.displayChanceCard(player[specialTurn].getName() + ", du har slået double og må derfor rulle igen");
+                gui.getUserButtonPressed(player[specialTurn].getName() + ", slå med terningerne igen", "OK");
 
-                player[rollingDouble].diceRoll();
+                player[specialTurn].diceRoll();
 
-                gui.setDice(player[rollingDouble].getDice1(), player[rollingDouble].getDice2());
+                gui.setDice(player[specialTurn].getDice1(), player[specialTurn].getDice2());
 
-                newLocation = (player[rollingDouble].getLocation() + player[rollingDouble].getDiceSum());
+                newLocation = (player[specialTurn].getLocation() + player[specialTurn].getDiceSum());
 
                 if (newLocation > fields.length) {
                     passedStart = true;
@@ -434,28 +462,28 @@ public class GameLogic {
                 }
                 newLocation = newLocation % fields.length;
 
-                fields[player[rollingDouble].getLocation()].setCar(players[rollingDouble], false);
+                fields[player[specialTurn].getLocation()].setCar(players[specialTurn], false);
 
-                player[rollingDouble].setLocation(newLocation);
+                player[specialTurn].setLocation(newLocation);
 
-                fields[newLocation].setCar(players[rollingDouble], true);
+                fields[newLocation].setCar(players[specialTurn], true);
 
-                landOnField(player[rollingDouble], players[rollingDouble]);
+                landOnField(player[specialTurn], players[specialTurn]);
 
                 if (passedStart) {
-                    player[rollingDouble].getAccount().deposit(200);
-                    players[rollingDouble].setBalance(player[rollingDouble].getAccount().getBalance());
+                    player[specialTurn].getAccount().deposit(200);
+                    players[specialTurn].setBalance(player[specialTurn].getAccount().getBalance());
 
 
                 }
-                if (player[rollingDouble].getAccount().getBalance() < 0) {
-                    fields[player[rollingDouble].getLocation()].setCar(players[rollingDouble], false);
-                    player[rollingDouble].isLost(true);
-                    gui.displayChanceCard(player[rollingDouble].getName() + ", er ude af spillet");
+                if (player[specialTurn].getAccount().getBalance() < 0) {
+                    fields[player[specialTurn].getLocation()].setCar(players[specialTurn], false);
+                    player[specialTurn].isLost(true);
+                    gui.displayChanceCard(player[specialTurn].getName() + ", er ude af spillet");
 
 
                 }
-                if (player[rollingDouble].getDice1() == player[rollingDouble].getDice2()) {
+                if (player[specialTurn].getDice1() == player[specialTurn].getDice2()) {
                     checkIfDoubleDice(player);
                 }else{
                     combo = 0;
@@ -463,13 +491,14 @@ public class GameLogic {
             } else {
 
 
-                player[rollingDouble].setLocation(30);
+                player[specialTurn].setLocation(30);
 
-                fields[newLocation].setCar(players[rollingDouble], false);
+                fields[newLocation].setCar(players[specialTurn], false);
 
-                landOnField(player[rollingDouble], players[rollingDouble]);
+                landOnField(player[specialTurn], players[specialTurn]);
 
-                gui.displayChanceCard(player[rollingDouble].getName()+ ", du er blevet fanget i færdsel overskridelse og bliver derfor taget til fængsel og betaler 50 for at komme ud næste runde");
+                gui.displayChanceCard(player[specialTurn].getName()+ ", du er blevet fanget i færdsel overskridelse og bliver derfor taget til fængsel");
+
                 combo = 0;
             }
         }
