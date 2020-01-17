@@ -15,10 +15,9 @@ public class GameLogic {
     private GUI_Field[] fields;
     private Board board = new Board();
     private int newLocation;
-    boolean passedStart = false;
+    private boolean passedStart = false;
     private ChanceController chanceController = new ChanceController();
     private boolean gameOn = true;
-    private int currentPlayers;
     private int rollingDouble = 0;
     private int combo = 0;
     private BuyHouseController b = new BuyHouseController();
@@ -142,7 +141,7 @@ public class GameLogic {
 
             for (int i = 0; i < player.length; i++) {
 
-                if (player[i].getLost() == 0 && gameOn == true) {
+                if (player[i].getLost() == 0 && gameOn) {
 
 
 
@@ -173,7 +172,7 @@ public class GameLogic {
 
                     //b.test(players[i], gui, fields);
 
-                    if (passedStart == true) {
+                    if (passedStart) {
                         player[i].getAccount().deposit(200);
                         players[i].setBalance(player[i].getAccount().getBalance());
 
@@ -189,6 +188,9 @@ public class GameLogic {
                     if (player[i].getDice1() == player[i].getDice2()) {
                         rollingDouble = i;
                         checkIfDoubleDice(player);
+                    }
+                    else {
+                        combo = 0;
                     }
                 }
                 checkIfGameOn(player);
@@ -381,7 +383,7 @@ public class GameLogic {
 
     public void checkIfGameOn(Player[] player) {
 
-        currentPlayers = players.length;
+        int currentPlayers = players.length;
 
         switch (player.length) {
             case 2:
@@ -419,11 +421,10 @@ public class GameLogic {
 
         combo += 1;
 
-        if (player[rollingDouble].getLost() == 0 && gameOn == true) {
+        if (player[rollingDouble].getLost() == 0 && gameOn) {
             if (combo < 3) {
                 gui.displayChanceCard(player[rollingDouble].getName() + ", du har slået double og må derfor rulle igen");
                 gui.getUserButtonPressed(player[rollingDouble].getName() + ", slå med terningerne igen", "OK");
-
 
                 player[rollingDouble].diceRoll();
 
@@ -447,7 +448,7 @@ public class GameLogic {
 
                 landOnField(player[rollingDouble], players[rollingDouble]);
 
-                if (passedStart == true) {
+                if (passedStart) {
                     player[rollingDouble].getAccount().deposit(200);
                     players[rollingDouble].setBalance(player[rollingDouble].getAccount().getBalance());
 
@@ -472,7 +473,7 @@ public class GameLogic {
 
                 landOnField(player[rollingDouble], players[rollingDouble]);
 
-                gui.displayChanceCard(player[rollingDouble].getName()+", du er blevet fanget i færdsel overskridelse og bliver derfor taget til fængsel");
+                gui.displayChanceCard(player[rollingDouble].getName()+ ", du er blevet fanget i færdsel overskridelse og bliver derfor taget til fængsel");
                 combo = 0;
             }
         }
