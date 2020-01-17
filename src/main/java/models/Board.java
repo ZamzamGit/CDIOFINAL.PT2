@@ -68,4 +68,8 @@ public class Board {
         }
         return fieldText;
     }
+
+    public Field[] getField() {
+        return field;
+    }
 }

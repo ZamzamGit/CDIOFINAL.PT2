@@ -20,6 +20,7 @@ public class GameLogic {
     private boolean gameOn = true;
     private int specialTurn = 0;
     private int combo = 0;
+    private BuyHouseController b = new BuyHouseController();
 
 
     public GameLogic() {
@@ -192,6 +193,9 @@ public class GameLogic {
                     fields[newLocation].setCar(players[i], true);
 
                     landOnField(player[i], players[i]);
+
+                    b.buyHouse(player[i], gui, board.getField(), fields);
+
 
                     if (passedStart) {
                         player[i].getAccount().deposit(200);

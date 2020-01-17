@@ -11,7 +11,7 @@ public class Street extends Field {
     private int rent;
     private Player owner;
     private boolean owned = false;
-    private int house[];
+    private int house = 0;
 
     public Street(int id, String name, int value, int rent, Color color) {
         super(id, name, color);
@@ -47,6 +47,14 @@ public class Street extends Field {
 
     public void setRent(int rent) {
         this.rent = rent;
+    }
+
+    public int getHouse() {
+        return house;
+    }
+
+    public void setHouse(int house) {
+        this.house = house;
     }
 }
 
