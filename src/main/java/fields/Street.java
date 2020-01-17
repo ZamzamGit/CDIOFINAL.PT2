@@ -14,7 +14,6 @@ public class Street extends Field {
     private int housePrice;
     private int rent, rent2, rent3, rent4, rent5, rent6;
 
-
     public Street(int id, String name, int value, int rent, int rent2, int rent3, int rent4, int rent5, int rent6, int housePrice, Color color) {
         super(id, name, color);
         this.value = value;
