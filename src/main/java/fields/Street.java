@@ -11,6 +11,7 @@ public class Street extends Field {
     private int rent;
     private Player owner;
     private boolean owned = false;
+    private int house[];
 
     public Street(int id, String name, int value, int rent, Color color) {
         super(id, name, color);
