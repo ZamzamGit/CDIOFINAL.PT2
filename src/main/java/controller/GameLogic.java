@@ -136,7 +136,6 @@ public class GameLogic {
 
     public void movePlayer(Player[] player) {
 
-
         while (gameOn) {
 
 
