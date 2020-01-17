@@ -154,7 +154,7 @@ public class GameLogic {
                                 player[i].diceRoll();
                                 gui.setDice(player[i].getDice1(), player[i].getDice2());
 
-                                if (player[i].getDice1() == player[i].getDice2()) {
+                                if (player[i].getDice1() == (player[i].getDice2())) {
                                     player[i].setJail(0);
                                     displayChanceCard("Du er slået 2 ens og er derfor fri");
                                     checkIfDoubleDice(player);
@@ -197,6 +197,7 @@ public class GameLogic {
                     b.buyHouse(player[i], players[i], gui, board.getField(), fields);
 
 
+
                     if (passedStart) {
                         player[i].getAccount().deposit(200);
                         players[i].setBalance(player[i].getAccount().getBalance());
@@ -230,6 +231,8 @@ public class GameLogic {
         if (field instanceof Street) {
             Street streetField = ((Street) field);
             if (!(streetField.isOwned())) {
+
+
 
                 gui.displayChanceCard(player.getName() + " lander på et ledig felt");
 
@@ -308,7 +311,7 @@ public class GameLogic {
                     default:
                         displayChanceCard(player.getName() + " køber ikke feltet");
 
-                        System.out.println();
+
                 }
             } else if (player == shipField.getOwner()) {
                 displayChanceCard(player.getName() + ", du er landet på dit eget felt");
@@ -366,8 +369,7 @@ public class GameLogic {
 
             } else if (field instanceof Brewery) {
                 Brewery breweryField = ((Brewery) field);
-                System.out.println(player.getDiceSum());
-                // int rent = player.getTerningSum()*(4+6*breweryField.getOwner().getAmountOfBrewery());
+
 
                 gui.displayChanceCard(player.getName() + " lander på et ledig felt");
 

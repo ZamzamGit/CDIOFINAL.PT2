@@ -12,18 +12,21 @@ public class Street extends Field {
     private boolean owned = false;
     private int house = 0;
     private int housePrice;
-    private int rent, rent2, rent3, rent4, rent5, rent6;
-
-    public Street(int id, String name, int value, int rent, int rent2, int rent3, int rent4, int rent5, int rent6, int housePrice, Color color) {
+    private int houseRent[] = new int [6];
+    private int rent;
+    int number=0;
+    public Street(int id, String name, int value, int rent0, int rent1, int rent2, int rent3, int rent4, int rent5, int housePrice, Color color) {
         super(id, name, color);
+
         this.value = value;
-        this.rent = rent;
-        this.rent2 = rent2;
-        this.rent3 = rent3;
-        this.rent4 = rent4;
-        this.rent5 = rent5;
-        this.rent6 = rent6;
+        this.houseRent[0] = rent0;
+        this.houseRent[1] = rent1;
+        this.houseRent[2] = rent2;
+        this.houseRent[3] = rent3;
+        this.houseRent[4] = rent4;
+        this.houseRent[5] = rent5;
         this.housePrice = housePrice;
+        this.rent=houseRent[number];
     }
 
     @Override
@@ -48,30 +51,6 @@ public class Street extends Field {
         return this.owned;
     }
 
-    public int getRent() {
-        return rent;
-    }
-
-    public int getRent2() {
-        return rent2;
-    }
-
-    public int getRent3() {
-        return rent3;
-    }
-
-    public int getRent4() {
-        return rent4;
-    }
-
-    public int getRent5() {
-        return rent5;
-    }
-
-    public int getRent6() {
-        return rent6;
-    }
-
     public int getHouse() {
         return house;
     }
@@ -84,8 +63,15 @@ public class Street extends Field {
         return housePrice;
     }
 
-    public void setRent(int rent) {
-        this.rent = rent;
+    public void setRent(int number) {
+        this.rent = houseRent[number];
+        System.out.println("number "+number);
+        System.out.println("rent "+ this.rent);
+
+    }
+
+    public int getRent() {
+        return rent;
     }
 }
 

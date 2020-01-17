@@ -12,39 +12,39 @@ public class BuyHouseController {
 
     public void buyHouse(Player player, GUI_Player gui_player, GUI gui, Field[] fields, GUI_Field[] gui_fields) {
         String[] options = getFieldsOwnedByPlayer(player, fields);
-        if(options.length == 0)
+        if (options.length == 0)
             return;
 
-       switch (gui.getUserButtonPressed("Vil du afslutte din tur?", "Afslut tur", "Køb hus")) {
+        switch (gui.getUserButtonPressed("Vil du afslutte din tur?", "Afslut tur", "Køb hus")) {
 
-           case "Køb hus":
+            case "Køb hus":
 
-             String fieldName = gui.getUserSelection("Hvilken grund vil du købe et hus til", options);
-             for(Field field : fields){
-                 boolean thisIsTheField = fieldName.equals(field.getName());
-                 if(thisIsTheField){
+                String fieldName = gui.getUserSelection("Hvilken grund vil du købe et hus til", options);
+                for (Field field : fields) {
+                    boolean thisIsTheField = fieldName.equals(field.getName());
+                    if (thisIsTheField) {
 
-                     Street street =  (Street) field;
+                        Street street = (Street) field;
 
-                     if(street.getHouse() < 4) {
-                         gui.showMessage(player.getName() + " køber huset for " + street.getHousePrice());
-                         street.setHouse(street.getHouse() + 1);
-                         GUI_Street gui_street = (GUI_Street) gui_fields[street.getId()];
-                         gui_street.setHouses(street.getHouse());
-                         player.getAccount().withdraw(street.getHousePrice());
-                         gui_player.setBalance(player.getAccount().getBalance());
-                         street.setRent(street.getRent());
-                         gui.displayChanceCard("Den nye husleje er på " + street.getRent());
-                     } else {
-                         gui.displayChanceCard(player.getName() + ", du kan ikke bygge flere huse");
-                     }
+                        if (street.getHouse() < 4) {
+                            gui.showMessage(player.getName() + " køber huset for " + street.getHousePrice());
+                            street.setHouse(street.getHouse() + 1);
+                            GUI_Street gui_street = (GUI_Street) gui_fields[street.getId()];
+                            gui_street.setHouses(street.getHouse());
+                            player.getAccount().withdraw(street.getHousePrice());
+                            gui_player.setBalance(player.getAccount().getBalance());
+                            street.setRent(street.getHouse());
 
-                     //TODO : Hotels are not handled atm
+                        } else {
+                            gui.displayChanceCard(player.getName() + ", du kan ikke bygge flere huse");
+                        }
 
-                 }
-             }
-           default:
-       }
+                        //TODO : Hotels are not handled atm
+
+                    }
+                }
+            default:
+        }
     }
 
     private String[] getFieldsOwnedByPlayer(Player player, Field[] fields) {
@@ -54,7 +54,7 @@ public class BuyHouseController {
             if (field instanceof Street) {
                 Street street = (Street) field;
                 boolean hasOwner = street.getOwner() != null;
-                if(hasOwner) {
+                if (hasOwner) {
                     boolean playerOwnsField = street.getOwner().equals(player);
                     if (playerOwnsField)
                         count++;
@@ -67,13 +67,14 @@ public class BuyHouseController {
             if (field instanceof Street) {
                 Street street = (Street) field;
                 boolean hasOwner = street.getOwner() != null;
-                if(hasOwner){
+                if (hasOwner) {
 
-                      boolean playerOwnsField = street.getOwner().equals(player);
-                      if (playerOwnsField) {
-                          String fieldName = street.getName();
-                          options[nextOption++] = fieldName;
-                      }
+                    boolean playerOwnsField = street.getOwner().equals(player);
+                    if (playerOwnsField) {
+                        String fieldName = street.getName();
+                        options[nextOption++] = fieldName;
+
+                    }
                 }
             }
         }

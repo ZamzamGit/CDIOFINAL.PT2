@@ -8,6 +8,7 @@ public class Board {
 
     Field[] field = new Field[40];
 
+
     public Board() {
         field[0] = new Start(0,"Start", Color.RED);
         field[1] = new Street(1,"Rødovrevej", 60, 2, 10, 30, 90, 160, 250, 50, Color.CYAN);
