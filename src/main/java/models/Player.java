@@ -37,8 +37,6 @@ public class Player {
         return account;
     }
 
-
-
     public void setName(String name) {
         this.name = name;
     }
@@ -91,9 +89,8 @@ public class Player {
         this.jailTime = jailTime;
     }
 
-    public int getJail(){
-          return jailTime;
-    }
+    public int getJail(){ return jailTime;}
+
     public void passTime(){
         jailTime-=1;
     }

@@ -170,7 +170,7 @@ public class GameLogic {
                                 player[i].setJail(0);
 
                         }
-                    }
+                    }else{
                         gui.getUserButtonPressed(player[i].getName() + ",  slå med terningerne", "OK");
 
 
@@ -214,6 +214,7 @@ public class GameLogic {
 
                 }
                 checkIfGameOn(player);
+            }
             }
         }
     }
