@@ -1,6 +1,5 @@
 package models;
 
-
 public class Player {
 
     private int id;
@@ -13,7 +12,7 @@ public class Player {
     private int amountOfShipping = -1;
     private int amountOfBrewery = -1;
     private boolean lost = false;
-    private int jailTime=0;
+    private int jailTime = 0;
 
     public Player() {
         account = new Account(5000);
@@ -65,21 +64,29 @@ public class Player {
         this.lost = lost;
     }
 
-    public int getLost(){ if (lost){return 1;}else{ return 0;}}
+    public int getLost() {
+        if(lost) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void adShipping(){
+    public void adShipping() {
        amountOfShipping +=1;
     }
 
-    public int getAmountOfShipping(){
+    public int getAmountOfShipping() {
         return amountOfShipping;
     }
 
-    public void adBrewery(){amountOfBrewery+=1;}
+    public void adBrewery(){
+        amountOfBrewery += 1;
+    }
 
     public int getAmountOfBrewery() {
         return amountOfBrewery;
@@ -89,12 +96,13 @@ public class Player {
         this.jailTime = jailTime;
     }
 
-    public int getJail(){ return jailTime;}
-
-    public void passTime(){
-        jailTime-=1;
+    public int getJail() {
+        return jailTime;
     }
 
+    public void passTime() {
+        jailTime -= 1;
+    }
 }
 
 

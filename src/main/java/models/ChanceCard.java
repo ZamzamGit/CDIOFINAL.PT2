@@ -1,4 +1,4 @@
-package controller;
+package models;
 
 
 import gui_fields.GUI_Field;
@@ -6,7 +6,7 @@ import gui_fields.GUI_Player;
 import gui_main.GUI;
 import models.Player;
 
-public class ChanceController {
+public class ChanceCard {
 
 
     public void moveFiveStepsForward(Player player, GUI_Player gui_player, GUI gui, GUI_Field[] fields) {
@@ -19,7 +19,7 @@ public class ChanceController {
     }
 
     public void moveTwoStepsBack(Player player, GUI_Player gui_player, GUI gui, GUI_Field[] fields) {
-        gui.displayChanceCard(" Ryk tre felter tilbage");
+        gui.displayChanceCard(" Ryk to felter tilbage");
         gui.getUserButtonPressed(player.getName(), "Aktivér chancekort");
         fields[player.getLocation()].setCar(gui_player, false);
         int newLokation = (player.getLocation() - 2) % fields.length;

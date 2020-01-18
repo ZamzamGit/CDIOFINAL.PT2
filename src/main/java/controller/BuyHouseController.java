@@ -35,17 +35,16 @@ public class BuyHouseController {
                                 player.getAccount().withdraw(street.getHousePrice());
                                 gui_player.setBalance(player.getAccount().getBalance());
                                 street.setRent(street.getHouse());
+                                gui.displayChanceCard(street.getName() + " husleje er nu på " + street.getRent());
                             } else if (street.getHouse() == 5) {
                                 street.setRent(street.getHouse());
                                 gui_street.setHotel(true);
+                                gui.displayChanceCard(street.getName() + " husleje er nu på " + street.getRent());
                             }
                             } else {
                                 gui.displayChanceCard(player.getName() + ", du kan ikke købe flere ejendomme på dette felt");
                                 buyHouse(player, gui_player, gui, fields, gui_fields);
                             }
-
-
-
                     }
                 }
             default:

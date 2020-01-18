@@ -4,6 +4,7 @@ import fields.*;
 import gui_fields.*;
 import gui_main.GUI;
 import models.Board;
+import models.ChanceCard;
 import models.Player;
 import java.awt.*;
 
@@ -16,7 +17,7 @@ public class GameLogic {
     private Board board = new Board();
     private int newLocation;
     private boolean passedStart = false;
-    private ChanceController chanceController = new ChanceController();
+    private ChanceCard chanceCard = new ChanceCard();
     private boolean gameOn = true;
     private int specialTurn = 0;
     private int combo = 0;
@@ -339,28 +340,28 @@ public class GameLogic {
 
             switch (chanceCard) {
                 case 0:
-                    chanceController.moveFiveStepsForward(player, gui_player, gui, fields);
+                    this.chanceCard.moveFiveStepsForward(player, gui_player, gui, fields);
                     landOnField(player, gui_player);
                     break;
                 case 1:
-                    chanceController.moveTwoStepsBack(player, gui_player, gui, fields);
+                    this.chanceCard.moveTwoStepsBack(player, gui_player, gui, fields);
                     landOnField(player, gui_player);
                     break;
                 case 2:
-                    chanceController.moveToStart(player, gui_player, gui, fields);
+                    this.chanceCard.moveToStart(player, gui_player, gui, fields);
                     landOnField(player, gui_player);
                     break;
                 case 3:
-                    chanceController.parkingFine(player, gui_player, gui, fields);
+                    this.chanceCard.parkingFine(player, gui_player, gui, fields);
                     break;
                 case 4:
-                    chanceController.newTire(player, gui_player, gui, fields);
+                    this.chanceCard.newTire(player, gui_player, gui, fields);
                     break;
                 case 5:
-                    chanceController.recieveAmount(player, gui_player, gui, fields);
+                    this.chanceCard.recieveAmount(player, gui_player, gui, fields);
                     break;
                 case 6:
-                    chanceController.moveToRådhuspladsen(player, gui_player, gui, fields);
+                    this.chanceCard.moveToRådhuspladsen(player, gui_player, gui, fields);
                     landOnField(player, gui_player);
             }
         } else if (field instanceof Jail) {
