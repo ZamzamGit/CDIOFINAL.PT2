@@ -38,7 +38,6 @@ public class BuyHouseController {
                                 street.setRent(street.getHouse());
                                 gui.displayChanceCard(street.getName() + " husleje er nu på " + street.getRent());
                             } else if (street.getHouse() == 5) {
-
                                 player.getAccount().withdraw(street.getHousePrice());
                                 gui_player.setBalance(player.getAccount().getBalance());
                                 street.setRent(street.getHouse());

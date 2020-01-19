@@ -60,13 +60,14 @@ public class Street extends Field {
     }
 
     public int getHousePrice() {
+        System.out.println(housePrice);
         return housePrice;
     }
 
     public void setRent(int number) {
         this.rent = houseRent[number];
-        System.out.println("number "+number);
-        System.out.println("rent "+ this.rent);
+
+
 
     }
 
