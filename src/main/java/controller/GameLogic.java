@@ -385,6 +385,7 @@ public class GameLogic {
 
             } else {
                 int breweryRent = player.getDiceSum() * (4 + 6 * breweryField.getOwner().getAmountOfBrewery());
+
                 if (breweryField.getOwner().getAccount().getBalance() > 0) {
                     gui.displayChanceCard(player.getName() + ", feltet er desværre ejet betal " + breweryRent + " til " + breweryField.getOwner().getName());
                     player.getAccount().withdraw(breweryRent);

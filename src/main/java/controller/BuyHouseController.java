@@ -1,6 +1,7 @@
 package controller;
 
 import fields.Field;
+import fields.Shipping;
 import fields.Street;
 import gui_fields.GUI_Field;
 import gui_fields.GUI_Player;
@@ -37,6 +38,9 @@ public class BuyHouseController {
                                 street.setRent(street.getHouse());
                                 gui.displayChanceCard(street.getName() + " husleje er nu på " + street.getRent());
                             } else if (street.getHouse() == 5) {
+
+                                player.getAccount().withdraw(street.getHousePrice());
+                                gui_player.setBalance(player.getAccount().getBalance());
                                 street.setRent(street.getHouse());
                                 gui_street.setHotel(true);
                                 gui.displayChanceCard(street.getName() + " husleje er nu på " + street.getRent());
@@ -52,7 +56,6 @@ public class BuyHouseController {
     }
 
     private String[] getFieldsOwnedByPlayer(Player player, Field[] fields) {
-
         boolean hasOwner;
         boolean playerOwnsField;
 
@@ -60,7 +63,6 @@ public class BuyHouseController {
         for (Field field : fields) {
             if (field instanceof Street) {
                 Street street = (Street) field;
-
                 hasOwner = street.getOwner() != null;
                 if (hasOwner) {
                     playerOwnsField = street.getOwner().equals(player);
@@ -77,8 +79,7 @@ public class BuyHouseController {
             if (field instanceof Street) {
                 Street street = (Street) field;
                 hasOwner = street.getOwner() != null;
-                if (hasOwner) {
-
+                if (hasOwner && street.getOwner().equals(player)) {
                     playerOwnsField = street.getOwner().equals(player);
                     if (playerOwnsField) {
                         String fieldName = street.getName();
