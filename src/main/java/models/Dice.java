@@ -12,4 +12,8 @@ public class Dice {
         faceValue = (int) (Math.random() * MAX) + 1;
         return faceValue;
     }
+
+    public int getFaceValue() {
+        return faceValue;
+    }
 }

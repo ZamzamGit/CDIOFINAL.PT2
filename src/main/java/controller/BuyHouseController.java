@@ -53,31 +53,36 @@ public class BuyHouseController {
 
     private String[] getFieldsOwnedByPlayer(Player player, Field[] fields) {
 
+        boolean hasOwner;
+        boolean playerOwnsField;
+
         int count = 0;
         for (Field field : fields) {
             if (field instanceof Street) {
                 Street street = (Street) field;
-                boolean hasOwner = street.getOwner() != null;
+
+                hasOwner = street.getOwner() != null;
                 if (hasOwner) {
-                    boolean playerOwnsField = street.getOwner().equals(player);
+                    playerOwnsField = street.getOwner().equals(player);
                     if (playerOwnsField)
                         count++;
                 }
             }
         }
+
         String[] options = new String[count];
         int nextOption = 0;
+
         for (Field field : fields) {
             if (field instanceof Street) {
                 Street street = (Street) field;
-                boolean hasOwner = street.getOwner() != null;
+                hasOwner = street.getOwner() != null;
                 if (hasOwner) {
 
-                    boolean playerOwnsField = street.getOwner().equals(player);
+                    playerOwnsField = street.getOwner().equals(player);
                     if (playerOwnsField) {
                         String fieldName = street.getName();
                         options[nextOption++] = fieldName;
-
                     }
                 }
             }

@@ -1,31 +1,35 @@
 package controller;
 
-import models.Board;
+import gui_fields.*;
+import gui_main.GUI;
 import models.Player;
+
+import java.awt.*;
 
 public class Monopoly {
 
-    private GameLogic gui;
+    private GameLogic gameLogic;
     private Player[] players;
 
     public Monopoly() {
-        this.gui = new GameLogic();
+        gameLogic = new GameLogic();
     }
 
     public void setUp() {
 
-        int antal = Integer.parseInt(gui.getUserButtonPressed("Hvor mange spillere?", new String[]{"2", "3", "4", "5", "6"}));
+        int antal = Integer.parseInt(gameLogic.getUserButtonPressed("Hvor mange spillere?", new String[]{"2", "3", "4", "5", "6"}));
 
         players = new Player[antal];
 
         for (int i = 0; i < antal; i++) {
-            String name = gui.getUserString("Spiller " + (i + 1) + ",  indtast dit navn");
+            String name = gameLogic.getUserString("Spiller " + (i + 1) + ",  indtast dit navn");
+
             players[i] = new Player();
             players[i].setId(i);
             players[i].setName(name);
         }
-        gui.addPlayers(players);
-        gui.movePlayer(players);
+        gameLogic.addPlayers(players);
+        gameLogic.movePlayer(players);
     }
 }
 
