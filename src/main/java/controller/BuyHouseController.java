@@ -11,6 +11,7 @@ import models.Player;
 
 public class BuyHouseController {
 
+
     public void buyHouse(Player player, GUI_Player gui_player, GUI gui, Field[] fields, GUI_Field[] gui_fields) {
         String[] options = getFieldsOwnedByPlayer(player, fields);
         if (options.length == 0)
