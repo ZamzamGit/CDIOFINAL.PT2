@@ -80,7 +80,7 @@ public class BuyHouseController {
             if (field instanceof Street) {
                 Street street = (Street) field;
                 hasOwner = street.getOwner() != null;
-                if (hasOwner && street.getOwner().equals(player)) {
+                if (hasOwner) {
                     playerOwnsField = street.getOwner().equals(player);
                     if (playerOwnsField) {
                         String fieldName = street.getName();
