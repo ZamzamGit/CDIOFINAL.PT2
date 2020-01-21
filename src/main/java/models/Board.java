@@ -65,7 +65,7 @@ public class Board {
 
         for (int i = 0; i < field.length; i++) {
             fieldText[i][0] = field[i].getName();
-            fieldText[i][1] = "" + field[i].getValue();
+              fieldText[i][1] = "" + field[i].getValue();
         }
         return fieldText;
     }

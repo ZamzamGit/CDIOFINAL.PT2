@@ -15,7 +15,7 @@ public class Monopoly {
         gameLogic = new GameLogic();
     }
 
-    public void setUp() {
+    public void game() {
 
         int antal = Integer.parseInt(gameLogic.getUserButtonPressed("Hvor mange spillere?", new String[]{"2", "3", "4", "5", "6"}));
 

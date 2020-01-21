@@ -1,7 +1,5 @@
 package models;
 
-import controller.GameLogic;
-import controller.Monopoly;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

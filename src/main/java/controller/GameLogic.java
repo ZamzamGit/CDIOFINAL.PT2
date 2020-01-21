@@ -1,5 +1,4 @@
 package controller;
-
 import fields.*;
 import gui_fields.*;
 import gui_main.GUI;
@@ -45,6 +44,7 @@ public class GameLogic {
 
             GUI_Start start = new GUI_Start("Start", "Modtag 200", "", Color.RED, Color.BLACK);
             fields[0] = start;
+
 
             GUI_Chance chance = new GUI_Chance("?", "Prøv lykken", "", Color.BLACK, Color.WHITE);
             fields[2] = chance;
@@ -281,7 +281,9 @@ public class GameLogic {
             gui.displayChanceCard(player.getName() + ", tag dig en pause");
 
         } else if (field instanceof Shipping) {
+
             Shipping shipField = (Shipping) field;
+
             if (!shipField.isOwned()) {
 
                 gui.displayChanceCard(player.getName() + " lander på et ledig felt");
@@ -297,6 +299,7 @@ public class GameLogic {
                         gui_player.setBalance(player.getAccount().getBalance());
 
 
+
                         break;
                     default:
                         displayChanceCard(player.getName() + " køber ikke feltet");
@@ -308,12 +311,14 @@ public class GameLogic {
 
             } else {
                 if (shipField.getOwner().getAccount().getBalance() > 0) {
-                    gui.displayChanceCard(player.getName() + ", feltet er desværre ejet betal " + shipField.getRent()
-                            * Math.pow(2, shipField.getOwner().getAmountOfShipping()) + " til " + shipField.getOwner().getName());
+                    double shippingRent = shipField.getRent()
+                            * Math.pow(2, shipField.getOwner().getAmountOfShipping());
 
-                    player.getAccount().withdraw(shipField.getRent());
+                    gui.displayChanceCard(player.getName() + ", feltet er desværre ejet betal " + (int)shippingRent + " til " + shipField.getOwner().getName());
+
+
+                    player.getAccount().withdraw((int) shippingRent);
                     gui_player.setBalance(player.getAccount().getBalance());
-
                     shipField.getOwner().getAccount().deposit(shipField.getRent());
                     players[shipField.getOwner().getId()].setBalance(shipField.getOwner().getAccount().getBalance());
                 } else {
@@ -430,7 +435,7 @@ public class GameLogic {
             for (int i = 0; i < player.length; i++) {
 
                 if (player[i].getLost() == 0) {
-                    gui.displayChanceCard(player[i].getName() + " har vundet");
+                    gui.displayChanceCard(player[i].getName() + " har vundet, tillykke med det. HUSK AT FØLGE SID ALI MOUNIB PÅ INSTAGRAM @SIDALI");
                 }
             }
 

@@ -11,6 +11,7 @@ import models.Player;
 
 public class BuyHouseController {
 
+
     public void buyHouse(Player player, GUI_Player gui_player, GUI gui, Field[] fields, GUI_Field[] gui_fields) {
         String[] options = getFieldsOwnedByPlayer(player, fields);
         if (options.length == 0)
@@ -78,7 +79,7 @@ public class BuyHouseController {
             if (field instanceof Street) {
                 Street street = (Street) field;
                 hasOwner = street.getOwner() != null;
-                if (hasOwner && street.getOwner().equals(player)) {
+                if (hasOwner) {
                     playerOwnsField = street.getOwner().equals(player);
                     if (playerOwnsField) {
                         String fieldName = street.getName();
