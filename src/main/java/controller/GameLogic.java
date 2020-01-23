@@ -426,6 +426,7 @@ public class GameLogic {
             }
             currentPlayers = currentPlayers - lostCount;
 
+        }
 
         if (currentPlayers == 1) {
             gameOn = false;
