@@ -15,7 +15,7 @@ public class Monopoly {
         gameLogic = new GameLogic();
     }
 
-    public void game() {
+    public void game() throws InterruptedException {
 
         int antal = Integer.parseInt(gameLogic.getUserButtonPressed("Hvor mange spillere?", new String[]{"2", "3", "4", "5", "6"}));
 

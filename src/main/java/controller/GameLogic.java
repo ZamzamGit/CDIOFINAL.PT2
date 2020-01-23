@@ -6,6 +6,7 @@ import models.Board;
 import models.ChanceCard;
 import models.Player;
 import java.awt.*;
+import java.util.concurrent.TimeUnit;
 
 public class GameLogic {
 
@@ -135,7 +136,7 @@ public class GameLogic {
         }
     }
 
-    public void movePlayer(Player[] player) {
+    public void movePlayer(Player[] player) throws InterruptedException {
 
         while (gameOn) {
 
@@ -144,7 +145,7 @@ public class GameLogic {
                 if (player[i].getLost() == 0 && gameOn) {
 
                     if (player[i].getJail() > 0) {
-                        specialTurn = i;
+
                         switch (gui.getUserButtonPressed(player[i].getName()+", vil du rulle to ens eller betale 50 for at komme ud?", "Rulle", "Betal 50")) {
 
                             case "Rulle":
@@ -155,6 +156,7 @@ public class GameLogic {
                                 if (player[i].getDice1() == (player[i].getDice2())) {
                                     player[i].setJail(0);
                                     displayChanceCard("Du er slået 2 ens og er derfor fri");
+                                    specialTurn = i;
                                     checkIfDoubleDice(player);
                                 }else{
                                     displayChanceCard("Du har ikke rullet 2 ens og skal derfor vente");
@@ -176,19 +178,24 @@ public class GameLogic {
 
                     gui.setDice(player[i].getDice1(), player[i].getDice2());
 
-                    newLocation = (player[i].getLocation() + player[i].getDiceSum());
+                    for (int j = 0;j <player[i].getDiceSum();j++ ) {
 
-                if (newLocation > fields.length) {
-                    passedStart = true;
-                }
-                newLocation = newLocation % fields.length;
 
-                    fields[player[i].getLocation()].setCar(players[i], false);
+                        newLocation = (player[i].getLocation() + 1);
+                        Thread.sleep(500);
 
-                    player[i].setLocation(newLocation);
 
-                    fields[newLocation].setCar(players[i], true);
+                        if (newLocation > fields.length) {
+                            passedStart = true;
+                        }
+                        newLocation = newLocation % fields.length;
 
+                        fields[player[i].getLocation()].setCar(players[i], false);
+
+                        player[i].setLocation(newLocation);
+
+                        fields[newLocation].setCar(players[i], true);
+                    }
                     landOnField(player[i], players[i]);
 
                     b.buyHouse(player[i], players[i], gui, board.getField(), fields);
@@ -443,7 +450,7 @@ public class GameLogic {
 
     }
 
-    public void checkIfDoubleDice(Player[] player) {
+    public void checkIfDoubleDice(Player[] player) throws InterruptedException {
 
         combo += 1;
 
@@ -457,19 +464,23 @@ public class GameLogic {
                 gui.setDice(player[specialTurn].getDice1(), player[specialTurn].getDice2());
 
                 newLocation = (player[specialTurn].getLocation() + player[specialTurn].getDiceSum());
+                for (int j = 0;j <player[specialTurn].getDiceSum();j++ ) {
 
-                if (newLocation > fields.length) {
-                    passedStart = true;
 
+                    newLocation = (player[specialTurn].getLocation() + 1);
+                    Thread.sleep(500);
+                    if (newLocation > fields.length) {
+                        passedStart = true;
+
+                    }
+                    newLocation = newLocation % fields.length;
+
+                    fields[player[specialTurn].getLocation()].setCar(players[specialTurn], false);
+
+                    player[specialTurn].setLocation(newLocation);
+
+                    fields[newLocation].setCar(players[specialTurn], true);
                 }
-                newLocation = newLocation % fields.length;
-
-                fields[player[specialTurn].getLocation()].setCar(players[specialTurn], false);
-
-                player[specialTurn].setLocation(newLocation);
-
-                fields[newLocation].setCar(players[specialTurn], true);
-
                 landOnField(player[specialTurn], players[specialTurn]);
 
                 if (passedStart) {
