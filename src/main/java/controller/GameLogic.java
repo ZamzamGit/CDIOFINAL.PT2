@@ -22,7 +22,7 @@ public class GameLogic {
     private int specialTurn = 0;
     private int combo = 0;
     private BuyHouseController b = new BuyHouseController();
-
+    private int sleepTime = 400;
 
     public GameLogic() {
         String[][] fieldText = board.getFieldText();
@@ -142,7 +142,7 @@ public class GameLogic {
 
             for (int i = 0; i < player.length; i++) {
 
-                if (player[i].getLost() == 0 && gameOn) {
+                if (player[i].getLost() == false && gameOn) {
 
                     if (player[i].getJail() > 0) {
 
@@ -182,7 +182,7 @@ public class GameLogic {
 
 
                         newLocation = (player[i].getLocation() + 1);
-                        Thread.sleep(500);
+                        Thread.sleep(sleepTime);
 
 
                         if (newLocation > fields.length) {
@@ -418,30 +418,20 @@ public class GameLogic {
 
         int currentPlayers = players.length;
 
-        switch (player.length) {
-            case 2:
-                currentPlayers = currentPlayers - player[0].getLost() - player[1].getLost();
-                break;
-            case 3:
-                currentPlayers = currentPlayers - player[0].getLost() - player[1].getLost() - player[2].getLost();
-                break;
-            case 4:
-                currentPlayers = currentPlayers - player[0].getLost() - player[1].getLost() - player[2].getLost() - player[3].getLost();
-                break;
-            case 5:
-                currentPlayers = currentPlayers - player[0].getLost() - player[1].getLost() - player[2].getLost() - player[3].getLost() - player[4].getLost();
-                break;
-            case 6:
-                currentPlayers = currentPlayers - player[0].getLost() - player[1].getLost() - player[2].getLost() - player[3].getLost() - player[4].getLost() - player[5].getLost();
-                break;
-        }
+
+        for (int j = 0 ; j < player.length; j++){
+            int lostCount=0;
+            if(player[j].getLost() == true){
+                lostCount +=1;
+            }
+            currentPlayers = currentPlayers - lostCount;
 
 
         if (currentPlayers == 1) {
             gameOn = false;
             for (int i = 0; i < player.length; i++) {
 
-                if (player[i].getLost() == 0) {
+                if (player[i].getLost() == false) {
                     gui.displayChanceCard(player[i].getName() + " har vundet, tillykke med det. HUSK AT FØLGE SID ALI MOUNIB PÅ INSTAGRAM @SIDALI");
                 }
             }
@@ -454,7 +444,7 @@ public class GameLogic {
 
         combo += 1;
 
-        if (player[specialTurn].getLost() == 0 && gameOn) {
+        if (player[specialTurn].getLost() == false && gameOn) {
             if (combo < 3) {
                 gui.displayChanceCard(player[specialTurn].getName() + ", du har slået double og må derfor rulle igen");
                 gui.getUserButtonPressed(player[specialTurn].getName() + ", slå med terningerne igen", "OK");
@@ -468,7 +458,8 @@ public class GameLogic {
 
 
                     newLocation = (player[specialTurn].getLocation() + 1);
-                    Thread.sleep(500);
+                    Thread.sleep(sleepTime);
+
                     if (newLocation > fields.length) {
                         passedStart = true;
 

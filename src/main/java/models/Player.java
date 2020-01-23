@@ -15,7 +15,7 @@ public class Player {
     private int jailTime = 0;
 
     public Player() {
-        account = new Account(1500);
+        account = new Account(200);
     }
 
     public String getName() {
@@ -64,11 +64,11 @@ public class Player {
         this.lost = lost;
     }
 
-    public int getLost() {
+    public boolean getLost() {
         if(lost) {
-            return 1;
+            return true;
         } else {
-            return 0;
+            return false;
         }
     }
 
